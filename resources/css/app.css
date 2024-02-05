@@ -1,0 +1,9 @@
+/* @import "/public_html/site/css/style.css"; */
+
+#er{
+    border: 1px solid red ;
+    background: #f3e8e8;
+    padding: 5px;
+    box-sizing: border-box;
+    color: red;
+}
