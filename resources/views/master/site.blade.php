@@ -28,7 +28,7 @@
     <section id="center_box">
             <div class="tarlanweb_center">
                 @includeWhen(empty($sidebar), 'admin.section.sidebar')
-               <div id="sidebar_left">
+               <div id="">
                 @yield('content')
                </div>
             </div>
@@ -53,13 +53,14 @@
     <!-- / Layout wrapper -->
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
+    <script src="{{ asset('/site/js/scripts.js') }}"></script>
     <script src="{{ asset('/site/libs/modal-loading.js') }}"></script>
-    <script src="/admin/libs/persian-date.js"></script>
-    <script src="/admin/libs/persian-datepicker.js"></script>
-    <script src="/admin/libs/modal-loading.js"></script>
-    <script src="/admin/libs/persian_number.js"></script>
-    <script src="/admin/libs/select2/select2.js"></script>
-    <script src="/admin/js/tooltipster.bundle.min.js"></script>
+    <script src="/site/libs/persian-date.js"></script>
+    <script src="/site/libs/persian-datepicker.js"></script>
+    <script src="/site/libs/modal-loading.js"></script>
+    <script src="/site/libs/persian_number.js"></script>
+    <script src="/site/libs/select2.js"></script>
+    <script src="/site/libs/tooltipster.bundle.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @vite('resources/js/app.js')

@@ -5,13 +5,16 @@ $sidebar=true;
 @endphp
 @section('login')
 <div class="login_box">
+    <form action="{{ route("check.login") }}" method="post">
+        @csrf
+        @method('post')
     <div class="login_forms_box box_shdow">
         <div class="logo_box">
             <figure><img src="/site/images/logo.png"></figure>
         </div>
         <p>حساب کاربری ندارید ؟ <a class="register_url" href="{{ route("register") }}">ثبت نام </a></p>
-        <input type="text" name="" placeholder="تلفن همراه">
-        <input type="text" name="" value="" placeholder="رمز ورود">
+        <input type="text" name="mobile" placeholder="تلفن همراه">
+        <input type="text" name="password" value="" placeholder="رمز ورود">
         <a class="login_ads_panels" href=""> 🎯ورود به پنل تبلیغ دهنده</a>
         <input type="submit" value="ورود">
         <div class="flex bt_form_txt">
@@ -21,5 +24,7 @@ $sidebar=true;
                 <label for="remeber_me">مرا به خاطر بسپار</label></p>
         </div>
     </div>
+</form>
+
 </div>
 @endsection

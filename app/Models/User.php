@@ -52,7 +52,7 @@ class User extends Authenticatable
         if($this->avatar){
             return asset("/media/users/avatar/".$this->avatar);
         }
-        return false;
+        return "/site/images/avatar.png";
     }
     public function send_pattern($mobile,$pattern_code,$input_data){
         // $soapClient = new \SoapClient(

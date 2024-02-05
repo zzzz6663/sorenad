@@ -22,7 +22,7 @@ Route::get('/login', 'HomeController@login')->name('login');
 Route::get('/logout', 'HomeController@logout')->name('logout');
 Route::get('/clear', 'HomeController@clear')->name('clear');
 
-Route::post('/check_login', 'AdminController@check_login')->name('admin.check.login');
+Route::post('/check_login', 'HomeController@check_login')->name('check.login');
 
 Route::prefix('admin')->namespace('admin')->group(function () {
     Route::get('/login', 'AdminController@login')->name('admin.login');

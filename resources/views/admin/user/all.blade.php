@@ -1,4 +1,4 @@
-@extends('master.admin')
+@extends('master.site')
 {{-- @section('header')
 <section class="content-header">
     <div class="container-fluid">
@@ -12,10 +12,8 @@
   @endsection  --}}
 @section('content')
 <div id="sidebar_left">
-
     <h2 class="title_right">مدیریت کاربران</h2>
     <div class="flex dashbord_table admin_dashboard_table_xs">
-
         <div class="dashbord_table_title">
             <ul class="flex">
                 <li>نام</li>

@@ -3,7 +3,7 @@
         <div class="top_header">
 
             <div class="logo">
-                <figure><a href="{{ route("home")}}"><img src="images/logo.png" width="150" height="42" alt="تبلیغات"></a></figure>
+                <figure><a href="{{ route("home")}}"><img src="/site/images/logo.png" width="150" height="42" alt="تبلیغات"></a></figure>
             </div>
 
             <div class="left_top_box flex">
