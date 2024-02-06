@@ -15,12 +15,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/clear', 'HomeController@clear')->name('clear');
 Route::get('/', 'HomeController@index')->name('home');
-Route::any('/code_check', 'HomeController@code_check')->name('code.check');
+Route::any('/check_code', 'HomeController@check_code')->name('check.code');
 Route::any('/mobile_login', 'HomeController@mobile_login')->name('mobile.login');
 Route::any('/register', 'HomeController@register')->name('register');
 Route::get('/login', 'HomeController@login')->name('login');
 Route::get('/logout', 'HomeController@logout')->name('logout');
 Route::get('/clear', 'HomeController@clear')->name('clear');
+Route::get('/redirect', 'HomeController@redirect')->name('redirect');
 
 Route::post('/check_login', 'HomeController@check_login')->name('check.login');
 
@@ -36,6 +37,12 @@ Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function
     Route::any('/site_setting', 'SettingController@site_setting')->name('site.setting');
     // Route::post('/check_login', 'AdminController@check_login')->name('admin.check.login');
     Route::resource('user', 'UserController')->middleware(['role:admin']);;;
+});
+
+
+Route::prefix('panel')->middleware(['auth'])->namespace('panel')->group(function () {
+    Route::get('/login', 'AdminController@login')->name('admin.login');
+
 });
 // Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function () {
 //     Route::get('/active_region/{region}', 'RegionController@active_region')->name('active.region')->withTrashed();;

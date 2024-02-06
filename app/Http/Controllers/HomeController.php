@@ -35,6 +35,17 @@ class HomeController extends Controller
         return "clear";
     }
 
+    public function redirect()
+    {
+        $user=auth()->user();
+        if($user->role=="admin"){
+            $route="user.index";
+        }else{
+            $route="admin.dashoard";
+        }
+        alert()->success("وود با موفقیت انجام شد ");
+        return redirect()->route($route);
+    }
     public function index()
     {
 
@@ -51,7 +62,7 @@ class HomeController extends Controller
 
     public function chek_code(Request $request)
     {
-        $rnd=      session()->get("rnd");
+        $rnd=      session()->get("rand");
         $mobile=      session()->get("mobile");
         $user=User::whereMobile($mobile)->first();
         if($user && $request->code==$rnd){
@@ -69,7 +80,7 @@ class HomeController extends Controller
         if ($request->isMethod('post')) {
             $rnd=rand ( 10000 , 99999 );
             $mobile=$request->mobile;
-            session()->put("rnd",$rnd);
+            session()->put("rand",$rnd);
             session()->put("mobile",$mobile);
             return response()->json([
                 'code'=>$rnd,
@@ -89,6 +100,7 @@ class HomeController extends Controller
                 'password' => 'required|confirmed|min:6',
             ]);
             $data['role'] = "customer";
+            $data['password'] = bcrypt($data['password']);
             $user = User::create($data);
             $user->assignRole("customer");
             alert()->success("حساب شما با موفقیت ثبت شد ");

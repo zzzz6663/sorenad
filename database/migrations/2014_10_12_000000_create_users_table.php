@@ -19,8 +19,14 @@ return new class extends Migration
             $table->string('family')->nullable();
             $table->string('mobile')->unique()->nullable();
             $table->string('email')->unique()->nullable();
-            $table->string('role')->unique();
+            $table->string('role')->nullable();
             $table->string('avatar',30)->nullable();
+            $table->string('mellicode',30)->nullable();
+            $table->string('shaba',30)->nullable();
+            $table->string('cart',30)->nullable();
+            $table->string('account',50)->nullable();
+            $table->string('a_mellicode',50)->nullable();
+            $table->string('bank',50)->nullable();
             $table->string('active',5)->default(0)->nullable();
             $table->string('deleted',5)->default(0)->nullable();
             $table->string('vip',5)->default(0)->nullable();

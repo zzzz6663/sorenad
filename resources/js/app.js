@@ -122,6 +122,18 @@ let count=0
     $(document).on('click', '#check_code', function (event) {
 
         let code = $('#code').val()
+        if (count==3) {
+            Swal.fire({
+                text: "تعداد سعی شما  بیشتر از حد مجاز هست!",
+                showConfirmButton: false,
+                timer: 1500,
+                icon: "error",
+              });
+              setTimeout(() => {
+                location.reload();
+              }, 2000);
+            return
+        }
 
         if (!code) {
             Swal.fire({
@@ -132,6 +144,7 @@ let count=0
               });
               return
         }
+
         load_animation()
         $.ajax('/check_code', {
             headers: {
@@ -141,10 +154,13 @@ let count=0
             data: { code: code },
             datatype: 'json',
             success: function (data) {
+                console.log(data)
                 stop_animation()
                 if(data.status=="ok"){
-                    
+                    window.location.href="/redirect"
+
                 }else{
+                    count++
                     Swal.fire({
                         text: "لطفا کد   را به درستی وارد کنید!",
                         showConfirmButton: false,

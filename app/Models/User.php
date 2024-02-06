@@ -31,6 +31,13 @@ class User extends Authenticatable
         'vip',
         'deleted',
         'avatar',
+        'mellicode',
+        'shaba',
+        'cart',
+        'account',
+        'a_mellicode',
+        'bank',
+
     ];
 
     /**

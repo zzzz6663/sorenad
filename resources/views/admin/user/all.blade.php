@@ -31,8 +31,17 @@
                 <input type="text" name="to" value="{{ request('to') }}" class="form-control persian_date">
             </div>
             <div class="col-lg-2">
-                <label for="active">منطقه</label>
+                <label for="vip">وضعیت </label>
+                <select class="form-control" name="vip" id="vip">
+                    <option value=""> انتخاب کنید </option>
+                    <option {{ request("vip")?"selected":"1" }} value="1"> فعال  </option>
+                    <option {{ request("vip")?"selected":"0" }} value="0"> غیر فعال </option>
+                </select>
+            </div>
+            <div class="col-lg-2">
+                <label for="active">Vip </label>
                 <select class="form-control" name="active" id="active">
+                    <option value=""> انتخاب کنید </option>
                     <option {{ request("active")?"selected":"1" }} value="1"> فعال  </option>
                     <option {{ request("active")?"selected":"0" }} value="0"> غیر فعال </option>
                 </select>
