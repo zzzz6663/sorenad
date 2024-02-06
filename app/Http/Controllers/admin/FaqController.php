@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\admin;
 use Carbon\Carbon;
-use App\Models\Region;
+use App\Models\Faq;
 // use App\Notifications\SendKaveCode;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class UserController extends Controller
+class FaqController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,17 +16,17 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $regions = Region::query();
+        $faqs = Faq::query();
         // if ($request->search) {
         //     $search = $request->search;
-        //     $regions->where('name', 'LIKE', "%{$search}%")
+        //     $faqs->where('name', 'LIKE', "%{$search}%")
         //         ->orWhere('family', 'LIKE', "%{$search}%")
         //         ->orWhere('mobile', 'LIKE', "%{$search}%");
         // }
 
-        $regions = $regions->withTrashed()
+        $faqs = $faqs
         ->latest()->paginate(10);
-        return view('admin.region.all', compact(['regions']));
+        return view('admin.faq.all', compact(['faqs']));
     }
 
     /**
@@ -37,7 +37,7 @@ class UserController extends Controller
     public function create()
     {
 
-        return view('admin.region.create');
+        return view('admin.faq.create');
     }
 
     /**
@@ -53,9 +53,9 @@ class UserController extends Controller
         ]);
         $user=auth()->user();
         $data['user_id']=$user->id;
-       Region::create($data);
+       faq::create($data);
         alert()->success('منطقه با موفقیت ساخته شد ');
-        return redirect()->route('region.index');
+        return redirect()->route('faq.index');
     }
 
     /**
@@ -75,9 +75,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, Region $region)
+    public function edit(Request $request, faq $faq)
     {
-        return view('admin.region.edit', compact(['region']));
+        return view('admin.faq.edit', compact(['faq']));
     }
 
     /**
@@ -87,14 +87,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Region $region)
+    public function update(Request $request, faq $faq)
     {
         $data = $request->validate([
             'name' => 'required|max:256',
         ]);
-        $region->update($data);
+        $faq->update($data);
         alert()->success('منطقه با موفقیت به روز  شد ');
-        return redirect()->route('region.index');
+        return redirect()->route('faq.index');
     }
 
     /**
@@ -103,22 +103,22 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Region $region)
+    public function destroy(faq $faq)
     {
-        $region->delete();
+        $faq->delete();
         alert()->success('منطقه با موفقیت حذف شد ');
-        return redirect()->route('region.index');
+        return redirect()->route('faq.index');
     }
-  public function active_region(Region $region)
+  public function active_faq(faq $faq)
     {
 
-        // dd($region);
-        // $region->update(['deleted_at'=>null]);
-        $region->restore();
-        // Region::onlyTrashed()->where('id', $region->id)->restore();
+        // dd($faq);
+        // $faq->update(['deleted_at'=>null]);
+        $faq->restore();
+        // faq::onlyTrashed()->where('id', $faq->id)->restore();
 
         alert()->success('منطقه با موفقیت فعال شد ');
-        return redirect()->route('region.index');
+        return redirect()->route('faq.index');
     }
 
 }

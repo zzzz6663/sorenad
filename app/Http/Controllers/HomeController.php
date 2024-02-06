@@ -41,7 +41,7 @@ class HomeController extends Controller
         if($user->role=="admin"){
             $route="user.index";
         }else{
-            $route="admin.dashoard";
+            $route="advertiser.faqs";
         }
         alert()->success("وود با موفقیت انجام شد ");
         return redirect()->route($route);

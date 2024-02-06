@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Artisan;
 use PHPUnit\Framework\Constraint\Count;
 
-class PanelController extends Controller
+class AdvertiserController extends Controller
 {
 
     public function profile(Request $request)
     {
         $user=auth()->user();
-        return view('site.panel.profile', compact(["user"]));
+        return view('advertiser.profile', compact(["user"]));
     }
 }
