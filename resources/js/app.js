@@ -118,12 +118,52 @@ window.onload = function() {
     if ($('.tooltiper').length) {
         $('.tooltiper').tooltipster();
     }
-
+let count=0
     $(document).on('click', '#check_code', function (event) {
 
+        let code = $('#code').val()
+
+        if (!code) {
+            Swal.fire({
+                text: "لطفا کد   را به درستی وارد کنید!",
+                showConfirmButton: false,
+                timer: 1500,
+                icon: "error",
+              });
+              return
+        }
+        load_animation()
+        $.ajax('/check_code', {
+            headers: {
+                'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+            },
+            type: 'post',
+            data: { code: code },
+            datatype: 'json',
+            success: function (data) {
+                stop_animation()
+                if(data.status=="ok"){
+                    
+                }else{
+                    Swal.fire({
+                        text: "لطفا کد   را به درستی وارد کنید!",
+                        showConfirmButton: false,
+                        timer: 1500,
+                        icon: "error",
+                      });
+                }
 
 
+
+            },
+            error: function (request, status, error) {
+                console.log(request);
+                stop_animation()
+            }
+        })
       });
+
+
     $(document).on('click', '#wrong', function (event) {
 
         $('#first').slideDown(400)

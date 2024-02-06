@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8" />
      <title>
-        نرم افزار حسابداری گاما
+       سورن اد
     </title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta content="" name="description" />
