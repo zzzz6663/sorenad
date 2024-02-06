@@ -309,7 +309,17 @@ return [
         'role'                  => '  نقش   ',
 
 
+        'app_active_site' => ' فعال کردن تبلیغ در سایت',
+        'app_advertiser_click' => ' تنظیم نرخ هر کلیک تبلیغ دهنده',
+        'app_advertiser_show' => ' تنظیم نرخ هر نمایش تبلیغ دهنده',
+        'app_limit_order' => ' تنظیم محدودیت سفارش',
+        'app_user_vip_click' => 'تنظیم نرخ هر کلیک کاربر vip ',
+        'app_user_vip_show' => 'تنظیم نرخ هر نمایش کاربر vip ',
+        'app_user_normal_click' => 'تنظیم نرخ هر کلیک کاربر معمولی ',
+        'app_user_normal_show' => 'تنظیم نرخ هر نمایش کاربر معمولی ',
 
+
+        
 
         ''                  => '     ',
 

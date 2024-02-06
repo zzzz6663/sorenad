@@ -11,41 +11,108 @@
   </section>
   @endsection  --}}
 @section('content')
-<div id="sidebar_left">
+<div class="card-header ">
     <h2 class="title_right">مدیریت کاربران</h2>
-    <div class="flex dashbord_table admin_dashboard_table_xs">
-        <div class="dashbord_table_title">
-            <ul class="flex">
-                <li>نام</li>
-                <li>نام خانوادگی</li>
-                <li>سمت</li>
-                <li>تلفن همراه</li>
-                <li>رمز عبور</li>
-                <li>عملیات</li>
-            </ul>
+
+    <form action="{{ route('user.index') }}" method="get" autocomplete="off">
+        @csrf
+        @method('get')
+        <div class="row">
+            <div class="col-lg-2">
+                <label for="search">جستجو</label>
+                <input type="text" name="search" value="{{ request('search') }}" class="form-control ">
+            </div>
+            <div class="col-lg-2">
+                <label for="from">از</label>
+                <input type="text" name="from" value="{{ request('from') }}" class="form-control persian_date">
+            </div>
+            <div class="col-lg-2">
+                <label for="to">تا </label>
+                <input type="text" name="to" value="{{ request('to') }}" class="form-control persian_date">
+            </div>
+            <div class="col-lg-2">
+                <label for="active">منطقه</label>
+                <select class="form-control" name="active" id="active">
+                    <option {{ request("active")?"selected":"1" }} value="1"> فعال  </option>
+                    <option {{ request("active")?"selected":"0" }} value="0"> غیر فعال </option>
+                </select>
+            </div>
+            <div class="col-lg-2">
+                <br>
+                <button class="btn btn-success">
+                    جست جو
+                </button>
+                @if(request()->has("search"))
+                <a href="{{ route("user.index") }}" class="btn btn-danger"><i class="fas fa-window-close"></i></a>
+                @endif
+            </div>
+            <div class="col-lg-2">
+                <br>
+              <h5>
+                {{ $users->total() }}
+                رکورد
+              </h5>
+            </div>
         </div>
 
-        <div class="dashbord_table_row">
-            <ul class="flex">
-                <li>احمد</li>
-                <li>کلهری</li>
-                <li>تبلیغ دهنده</li>
-                <li>09158856205</li>
-                <li>7877&amp;*#45؛6</li>
-                <li>
-                    <div class="flex acc_admin_cd">
-                        <div class="delete_item show_c_box1 tooltip">❌<span class="tooltiptext">حذف کاربر</span></div>
-                        <div class="deactive_item show_c_box2 tooltip">⛔<span class="tooltiptext">غیرفعال کردن</span></div>
-                        <div class="increase_item show_c_box3 tooltip">🔼<span class="tooltiptext">افزایش موجودی</span></div>
-                        <div class="decrease_item show_c_box4 tooltip active">🔽<span class="tooltiptext">کاهش موجودی</span></div>
-                        <div class="send_messages_item show_c_box5 tooltip">📨<span class="tooltiptext">ارسال پیام</span></div>
-                        <div class="edit_info_item show_c_box6 tooltip">✏️<span class="tooltiptext">ویرایش اطلاعات کاربر</span></div>
-                        <div class="up_to_vip show_c_box7 tooltip">🥇<span class="tooltiptext">ارتقاء به کاربر vip</span></div>
-                        <div class="down_to_user show_c_box8 tooltip">👨‍💼<span class="tooltiptext">بازگشت به کاربر معمولی</span></div>
-                    </div>
-                </li>
-            </ul>
-        </div>
+    </form>
+
+</div>
+<br>
+<div id="">
+    <div class="flex dashbord_table admin_dashboard_table_xs">
+        <table>
+            <thead>
+                <tr>
+                    <th>نام</th>
+                    <th>نام خانوادگی</th>
+                    <th>تلفن همراه</th>
+                    <th>وضعیت </th>
+                    <th>Vip</th>
+                    <th>تاریخ</th>
+
+                    <th>عملیات</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach ($users as $user )
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>
+                        {{ $user->name }}
+                        {{ $user->family }}
+                    </td>
+                    <td>{{ $user->mobile }}</td>
+                    <td>
+                        <span class="text tooltiper text-{{ $user->active?"success":"danger" }} " title="{{ $user->active?"فعال":"غیر فعال" }}">
+                            <i class="fa-solid tooltiper
+                                 {{ $user->active?"fa-badge-check":"fa-circle-xmark" }} ">
+                                </i>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="text tooltiper text-{{ $user->vip?"success":"danger" }} " title="کاب {{ $user->active?"Vip":"معمولی" }}">
+                            <i class="fa-solid tooltiper
+                                 {{ $user->vip?"fa-badge-check":"fa-circle-xmark" }} ">
+                                </i>
+                        </span>
+                    </td>
+                    <td>{{ jdate($user->created_at)->format("Y-m-d") }}</td>
+                    <td>
+                        <a href="{{ route("user.edit",$user->id) }}" class="btn btn-success">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                    </td>
+
+                </tr>
+                @endforeach
+
+            </tbody>
+        </table>
+
+
+
 
 
 

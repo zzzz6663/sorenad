@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
+use NumberFormatter;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
@@ -25,6 +27,10 @@ class User extends Authenticatable
         'family',
         'mobile',
         'role',
+        'active',
+        'vip',
+        'deleted',
+        'avatar',
     ];
 
     /**
@@ -115,5 +121,18 @@ class User extends Authenticatable
 		echo $res_data;
 
 
+    }
+
+
+    public function convert_date($from)
+    {
+        $date = explode('/', $from);
+        $fmt = numfmt_create('fa', NumberFormatter::DECIMAL);
+        $year = numfmt_parse($fmt, $date[0]);
+        $month = numfmt_parse($fmt, $date[1]);
+        $day = numfmt_parse($fmt, $date[2]);
+        $from =  \Morilog\Jalali\CalendarUtils::toGregorian($year, $month, $day);
+        $now=Carbon::now()->format("H:i:s");
+        return   $from = $from[0] . '-' . $from[1] . '-' . $from[2] . ' '.  $now;
     }
 }

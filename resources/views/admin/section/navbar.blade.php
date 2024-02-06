@@ -13,7 +13,7 @@
                 <div class="profile_me">
 
                     <div class="account_show flex">
-                        <img src="{{ auth()->user()->avatar() }}" alt="avatar">
+                        <img src="{{ auth()->user()->avatar() }}" class="avatar"  alt="avatar">
                             {{auth()->user()->name}}
                             {{auth()->user()->family}}
                         <svg width="10px" height="10px" viewBox="0 -19.04 75.804 75.804" xmlns="http://www.w3.org/2000/svg">

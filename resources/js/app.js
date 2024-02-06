@@ -104,9 +104,24 @@ function load_animation() {
 window.onload = function() {
 
 
+    if( $('.persian_date').length){
+        $(".persian_date").pDatepicker(
+            {
+                "altField": '#timestamp',
+                "initialValue": false,
+                "observer": true,
+                "autoClose": true,
+                "format": 'YYYY/MM/DD'
+            }
+        );
+    }
+    if ($('.tooltiper').length) {
+        $('.tooltiper').tooltipster();
+    }
+
     $(document).on('click', '#check_code', function (event) {
 
-       
+
 
       });
     $(document).on('click', '#wrong', function (event) {

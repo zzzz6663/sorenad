@@ -16,7 +16,7 @@ class HomeController extends Controller
 {
     public function clear()
     {
-        // dd(bcrypt(1212));
+        dd(bcrypt(1212));
 
         $now = Carbon::now()->format("H:i:s");
         // dd($now);
@@ -111,7 +111,8 @@ class HomeController extends Controller
             'password' => 'required',
         ]);
         $user = User::whereMobile($request->mobile)->whereIn('role', ['admin', "customer"])->first();
-        //    $user->assignRole('admin');
+        //    $user->assignRole('admin')
+        // dd(Hash::check($request->password, $user->password));
         if (!$user) {
             alert()->error('   اطلاعات ارسال شده صحیح نمی باشد');
             return back();

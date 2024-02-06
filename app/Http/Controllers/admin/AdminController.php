@@ -26,4 +26,10 @@ class AdminController extends Controller
         return view('admin.auth.login');
     }
 
+    public function admin_dashoard()
+    {
+        $user = auth()->user();
+        return view('admin.dashboard.admin_dashoard');
+    }
+
 }

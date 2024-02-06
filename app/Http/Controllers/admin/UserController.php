@@ -16,6 +16,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        $user=auth()->user();
         $users = User::query();
         if ($request->search) {
             $search = $request->search;
@@ -23,10 +24,25 @@ class UserController extends Controller
                 ->orWhere('family', 'LIKE', "%{$search}%")
                 ->orWhere('mobile', 'LIKE', "%{$search}%");
         }
-        if ($request->role) {
-            $users->whereLevel($request->role);
+
+        if ($request->vip) {
+            $users->where('vip', $request->vip);
         }
-        $users = $users->latest()->paginate(10);
+        if ($request->active) {
+            $users->where('active', $request->active);
+        }
+        if ($request->from) {
+            $request->from = $user->convert_date($request->from);
+            $users->where('created_at', '>', $request->from);
+        }
+        if ($request->to) {
+            $request->to = $user->convert_date($request->to);
+            $users->where('created_at', '<', $request->to);
+        }
+
+        $users =$users
+        // ->whereRole("customer")
+        ->latest()->paginate(10);
         return view('admin.user.all', compact(['users']));
     }
 
@@ -110,18 +126,17 @@ class UserController extends Controller
             'name' => 'required|max:256',
             'family' => 'required|max:256',
             'mobile' => 'required|max:11|unique:users,mobile,'.$user->id,
-            'personal_code' => 'required|max:11|unique:users,personal_code,'.$user->id,
-            'melli_code' => 'required|max:11|unique:users,melli_code,'.$user->id,
-            'role' => 'required',
+            'password' => 'nullable|confirmed|min:6|max1:20',
             // 'region_id' => 'required',
-            'avatar' => 'nullable',
+            'avatar' => 'nullable|max:2024',
+            'vip' => 'nullable|max:2024',
+            'active' => 'nullable|max:2024',
         ]);
 
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
             $name_img = 'avatar_' . $user->id . '.' . $avatar->getClientOriginalExtension();
-
-            $avatar->move(public_path('/media/avatar/'), $name_img);
+            $avatar->move(public_path('/media/users/avatar/'), $name_img);
             $data['avatar']=$name_img;
         }
 

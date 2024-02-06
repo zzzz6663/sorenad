@@ -16,7 +16,11 @@
     {{--  <meta name="viewport" content="width=device-width, initial-scale=1">  --}}
     <link rel="stylesheet" href="{{ asset("/site/css/style.css") }}">
     <link rel="stylesheet" href="{{ asset("/site/libs/modal-loading.css") }}">
+    <link rel="stylesheet" href="{{ asset("/site/libs/fs.css") }}">
     <link rel="stylesheet" href="{{ asset("/site/css/font-awesome.css") }}">
+    <link rel="stylesheet" href="{{ asset("/site/libs/bs.css") }}">
+    <link rel="stylesheet" href="{{ asset("/site/libs/persian-datepicker.css") }}">
+
     <script src="{{ asset('/site/js/jquery.js') }}"></script>
     @vite('resources/css/app.css')
 </head>
@@ -28,7 +32,7 @@
     <section id="center_box">
             <div class="tarlanweb_center">
                 @includeWhen(empty($sidebar), 'admin.section.sidebar')
-               <div id="">
+               <div id="sidebar_left">
                 @yield('content')
                </div>
             </div>
@@ -61,6 +65,7 @@
     <script src="/site/libs/persian_number.js"></script>
     <script src="/site/libs/select2.js"></script>
     <script src="/site/libs/tooltipster.bundle.min.js"></script>
+    <script src="/site/libs/persian-datepicker.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @vite('resources/js/app.js')

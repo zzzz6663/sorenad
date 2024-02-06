@@ -22,15 +22,18 @@ a:hover{transition: 0.3s all;-moz-transition:0.3s all;-webkit-transition:0.3s al
 .clear2{clear: both;padding: 15px 0;}
 .clear3{clear: both;padding: 30px 0;}
 strong{font-weight: bold;}
+a{
+    text-decoration: none!important;
+}
 @font-face{
 font-family: shabnam;
-src: url('fonts/shabnam.woff') format('woff');
+src: url('/site/fonts/shabnam.woff') format('woff');
 font-weight: normal;
 font-display: swap;
 }
 @font-face{
 font-family: shabnam;
-src: url('fonts/shabnam-bold.woff') format('woff');
+src: url('/site/fonts/shabnam-bold.woff') format('woff');
 font-weight: bold;
 font-display: swap;
 }
@@ -44,6 +47,133 @@ a{color: #515151;outline: unset;}
 .tarlanweb_center{width: 1300px;height: auto;margin: 0 auto;position: relative;}
 .box_shdow {
     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+
+
+.login_box input[type="text"],.login_box input[type="url"],.login_box input[type="password"],.login_box textarea,.login_box select
+,.login_ads_panels{
+  width: 100%;
+  position: relative;text-align: center;
+  height: 50px;line-height: 48px;
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 25px;
+}
+.flex{display: flex;align-items: center;justify-content: space-between;align-content: center;}
+
+.login_ads_panels{text-align: center;display: block;}
+
+.login_box{
+  width: 100%;
+  min-height: 100vh;
+  background-image: url('/site/images/bg-01.jpg');
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.login_forms_box{
+width: 480px;height: auto;padding:25px;
+background: #fff;
+border-radius: 25px;
+display: flex;flex-direction: column;gap:15px;grid-gap: 15px;
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+}
+.logo_box{width: 50%;}
+.register_url{color: #00b0f1;}
+.login_forms_box input[type="submit"]{width: 100%;height: 50px;position: relative;text-align: center;
+background: #00b0f1;border: 1px solid #00b0f1;cursor: pointer;font-size: 16px;
+border-radius: 25px;
+}
+.bt_form_txt{width: 100%;}
+.bt_form_txt p{width: 100%;}
+.rember_me_box{text-align: left;}
+
+
+
+
+
+
+
+
+
+@media (max-width: 1300px){
+.tarlanweb_center{width:1200px;}
+
+}
+@media (max-width: 1200px){
+.tarlanweb_center{width: 1100px;}
+
+
+}
+@media (max-width: 1100px){
+.tarlanweb_center{width: 1000px;}
+body{overflow-x: hidden;}
+
+
+}
+@media (max-width: 1000px){
+.tarlanweb_center{width: 900px;}
+
+}
+@media (max-width: 900px){
+.tarlanweb_center{width: 800px;}
+
+
+}
+@media (max-width: 800px){
+.tarlanweb_center{width: 700px;}
+
+
+
+
+}
+@media (max-width: 700px){
+.tarlanweb_center{width: 600px;}
+.flex{flex-wrap: wrap;}
+
+
+}
+@media (max-width: 600px){
+.tarlanweb_center{width: 500px;}
+
+
+
+}
+@media (max-width: 500px){
+.tarlanweb_center{width: 450px;}
+.login_forms_box{width: 90%;padding: 15px;}
+.logo_box{width: 80%;}
+
+}
+@media (max-width: 450px){
+.tarlanweb_center{width: 370px;}
+
+}
+@media (max-width: 370px){
+.tarlanweb_center{width: 300px;}
+
+
+}
+
+@media (max-width: 300px){
+.tarlanweb_center{width: 250px;}
+
+
+}
+@media (max-width: 250px){
+.tarlanweb_center{width: 95%;}
+
 }
 #header{width: 100%;position: sticky;top:0;transition: all .2s ease-in-out;z-index: 999999;background: #fafafa;}
 .head_shadow{box-shadow: 0 3px 6px rgba(40,40,40,0.2);}

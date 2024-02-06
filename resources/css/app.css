@@ -1,5 +1,9 @@
 /* @import "/public_html/site/css/style.css"; */
-
+.avatar{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
 #er{
     border: 1px solid red ;
     background: #f3e8e8;
@@ -7,3 +11,37 @@
     box-sizing: border-box;
     color: red;
 }
+body{
+    color: #3a3a3a;
+}
+table{
+    width: 100%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+
+}
+th{
+    background: #e1e1e1;
+    font-size: 14px;
+    font-weight: bold;
+}
+td{
+    font-size: 14px;
+    font-weight: bold;
+}
+tr:nth-child(odd) {
+    background: #f8f8f8;
+}
+ td ,th{
+    padding: 10px 20px;
+}
+.subitem{
+    line-height: 30px;
+    border-radius: 10px;
+    margin: 5px 0;
+}
+.subitem.active{
+    background: #e1e1e1;
+
+}
+
