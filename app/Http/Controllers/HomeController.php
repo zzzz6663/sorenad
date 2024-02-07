@@ -16,7 +16,7 @@ class HomeController extends Controller
 {
     public function clear()
     {
-        dd(bcrypt(1212));
+        dump(bcrypt(1212));
 
         $now = Carbon::now()->format("H:i:s");
         // dd($now);
