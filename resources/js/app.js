@@ -114,6 +114,10 @@ window.onload = function() {
         }
   });
 
+    if( $('#box_chat').length){
+        
+        $('#box_chat').scrollTop($('#box_chat')[0].scrollHeight);
+    }
     if( $('.persian_date').length){
         $(".persian_date").pDatepicker(
             {

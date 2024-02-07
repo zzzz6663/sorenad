@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\advertiser;
+namespace App\Http\Controllers\admin;
 
 use Carbon\Carbon;
 use App\Models\Faq;
@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Answer;
 use App\Models\Ticket;
 
-class UserTicketController extends Controller
+class TicketController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class UserTicketController extends Controller
         //         ->orWhere('family', 'LIKE', "%{$search}%")
         //         ->orWhere('mobile', 'LIKE', "%{$search}%");
         // }
-        $tickets->where("customer_id", $user->id);
+        // $tickets->where("customer_id", $user->id);
         $tickets = $tickets
             ->latest()->paginate(10);
         return view('advertiser.ticket.all', compact(['tickets']));
@@ -142,8 +142,7 @@ class UserTicketController extends Controller
         $data=  $request->validate([
             'answer'=>"required",
         ]);
-        // $ticket->update(['status'=>"wait_for_admin"]);
-        // $data['customer_id']=$user->id;
+
         if($user->role=="admin"){
             $data['user_id'] = $user->id;
         $data['status'] = 'wait_for_customer';
@@ -159,6 +158,8 @@ class UserTicketController extends Controller
 
         }
 
+        $ticket->update(['status'=> $data['status'] ]);
+        dd($data);
         $answer= $ticket->answers()->create($data);
         if ($request->hasFile('attach')) {
             $attach = $request->file('attach');
@@ -167,7 +168,7 @@ class UserTicketController extends Controller
             $answer->update(['attach' => $name_img]);
         }
 
-        alert()->success('سوال با موفقیت ثبت شد ');
+        alert()->success('اطعات با موفقیت ثبت شد ');
         return redirect()->route('userticket.show',$ticket->id);
     }
 }

@@ -45,6 +45,7 @@ Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function
     Route::any('/user_bank_info/{user}', 'UserController@user_bank_info')->name('user.bank.info');
     Route::resource('user', 'UserController')->middleware(['role:admin']);;;
     Route::resource('faq', 'FaqController')->middleware(['role:admin']);;;
+    Route::resource('ticket', 'TicketController');;;
 });
 
 

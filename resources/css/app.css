@@ -63,3 +63,8 @@ tr:nth-child(odd) {
     margin-top: 10px;
     }
 
+    .box_chat {
+        max-height: 300px;
+        overflow: auto;
+    }
+
