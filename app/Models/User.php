@@ -36,6 +36,7 @@ class User extends Authenticatable
         'cart',
         'account',
         'a_mellicode',
+        'confirm_bank_account',
         'bank',
 
     ];
@@ -61,12 +62,21 @@ class User extends Authenticatable
 
 
 
+    public function tickets(){
+        return $this->hasMany(Ticket::class);
+
+    }
+    public function answer(){
+        return $this->hasMany(Answer::class);
+
+    }
     public function avatar(){
         if($this->avatar){
             return asset("/media/users/avatar/".$this->avatar);
         }
         return "/site/images/avatar.png";
     }
+
     public function send_pattern($mobile,$pattern_code,$input_data){
         // $soapClient = new \SoapClient(
         //     storage_path($wsdlPath),

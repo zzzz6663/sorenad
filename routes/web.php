@@ -21,11 +21,15 @@ Route::any('/register', 'HomeController@register')->name('register');
 Route::get('/login', 'HomeController@login')->name('login');
 Route::get('/logout', 'HomeController@logout')->name('logout');
 Route::get('/clear', 'HomeController@clear')->name('clear');
-Route::get('/redirect', 'HomeController@redire
-ct')->name('redirect');
+Route::get('/redirect', 'HomeController@redirect')->name('redirect');
 
 Route::post('/check_login', 'HomeController@check_login')->name('check.login');
 
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/download', 'HomeController@download')->name('download');
+
+});
 Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function () {
     Route::get('/login', 'AdminController@login')->name('admin.login');
     Route::get('/admin_dashoard', 'AdminController@admin_dashoard')->name('admin.dashoard');
@@ -36,15 +40,21 @@ Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function
     Route::any('/setting_ads_video', 'SettingController@setting_ads_video')->name('setting.ads.video');
     Route::any('/setting_ads_txt', 'SettingController@setting_ads_txt')->name('setting.ads.txt');
     Route::any('/site_setting', 'SettingController@site_setting')->name('site.setting');
-    // Route::post('/check_login', 'AdminController@check_login')->name('admin.check.login');
+
+
+    Route::any('/user_bank_info/{user}', 'UserController@user_bank_info')->name('user.bank.info');
     Route::resource('user', 'UserController')->middleware(['role:admin']);;;
     Route::resource('faq', 'FaqController')->middleware(['role:admin']);;;
 });
 
 
 Route::prefix('advertiser')->middleware(['auth'])->namespace('advertiser')->group(function () {
-    Route::get('/profile', 'AdvertiserController@profile')->name('advertiser.profile');
+    Route::any('/profile', 'AdvertiserController@profile')->name('advertiser.profile');
+    Route::any('/change_password', 'AdvertiserController@change_password')->name('advertiser.change.password');
+    Route::any('/bank_info', 'AdvertiserController@bank_info')->name('advertiser.bank.info');
     Route::get('/faqs', 'AdvertiserController@faqs')->name('advertiser.faqs');
+    Route::any('/new_answer/{ticket}', 'UserTicketController@new_answer')->name('advertiser.new.answer');
+    Route::resource('userticket', 'UserTicketController');;;
 
 });
 // Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function () {

@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('faqs', function (Blueprint $table) {
+        Schema::create('answers', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger("user_id")->nullable();
-            $table->string("title")->nullable();
-            $table->string("content")->nullable();
+            $table->unsignedInteger("customer_id")->nullable();
+            $table->unsignedInteger("ticket_id")->nullable();
+            $table->text("answer")->nullable();
+            $table->string("attach")->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('faqs');
+        Schema::dropIfExists('answers');
     }
 };

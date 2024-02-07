@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\advertiser;
+
 use Carbon\Carbon;
 use App\Models\Faq;
 // use App\Notifications\SendKaveCode;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Answer;
+use App\Models\Ticket;
 
-class FaqController extends Controller
+class UserTicketController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,17 +19,18 @@ class FaqController extends Controller
      */
     public function index(Request $request)
     {
-        $faqs = Faq::query();
+        $user = auth()->user();
+        $tickets = Ticket::query();
         // if ($request->search) {
         //     $search = $request->search;
         //     $faqs->where('name', 'LIKE', "%{$search}%")
         //         ->orWhere('family', 'LIKE', "%{$search}%")
         //         ->orWhere('mobile', 'LIKE', "%{$search}%");
         // }
-
-        $faqs = $faqs
-        ->latest()->paginate(10);
-        return view('admin.faq.all', compact(['faqs']));
+        $tickets->where("customer_id", $user->id);
+        $tickets = $tickets
+            ->latest()->paginate(10);
+        return view('advertiser.ticket.all', compact(['tickets']));
     }
 
     /**
@@ -37,7 +41,7 @@ class FaqController extends Controller
     public function create()
     {
 
-        return view('admin.faq.create');
+        return view('advertiser.ticket.create');
     }
 
     /**
@@ -51,12 +55,31 @@ class FaqController extends Controller
         $data = $request->validate([
             'title' => 'required|max:256',
             'content' => 'required',
+            'attach' => 'nullable|max:1024',
         ]);
-        $user=auth()->user();
-        $data['user_id']=$user->id;
-       faq::create($data);
+        $user = auth()->user();
+
+        $data['customer_id'] = $user->id;
+        $data['status'] = 'wait_for_admin';
+
+        $ticket = Ticket::create($data);
+
+        $data['number'] = $ticket->id + 100;
+        $ticket->update($data);
+        $answer = Answer::create([
+            'ticket_id' => $ticket->id,
+            'customer_id' => $user->id,
+            'answer' => $data['content'],
+        ]);
+        if ($request->hasFile('attach')) {
+            $attach = $request->file('attach');
+            $name_img = 'attach_' . $answer->id . '.' . $attach->getClientOriginalExtension();
+            $attach->move(public_path('/media/ticket/attach/'), $name_img);
+            $answer->update(['attach' => $name_img]);
+        }
+
         alert()->success('سوال با موفقیت ساخته شد ');
-        return redirect()->route('faq.index');
+        return redirect()->route('userticket.index');
     }
 
     /**
@@ -65,9 +88,11 @@ class FaqController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Ticket $userticket)
     {
-        //
+        $answers=$userticket->answers()->oldest()->get();
+        $user=auth()->user();
+        return view('advertiser.ticket.show',compact('userticket','user',"answers"));
     }
 
     /**
@@ -111,16 +136,23 @@ class FaqController extends Controller
         alert()->success('سوال با موفقیت حذف شد ');
         return redirect()->route('faq.index');
     }
-  public function active_faq(faq $faq)
+    public function new_answer(Ticket $ticket ,Request $request)
     {
+        $user=auth()->user();
+        $data=  $request->validate([
+            'answer'=>"required",
+        ]);
+        $ticket->update(['status'=>"wait_for_admin"]);
+        $data['customer_id']=$user->id;
+        $answer= $ticket->answers()->create($data);
+        if ($request->hasFile('attach')) {
+            $attach = $request->file('attach');
+            $name_img = 'attach_' . $answer->id . '.' . $attach->getClientOriginalExtension();
+            $attach->move(public_path('/media/ticket/attach/'), $name_img);
+            $answer->update(['attach' => $name_img]);
+        }
 
-        // dd($faq);
-        // $faq->update(['deleted_at'=>null]);
-        $faq->restore();
-        // faq::onlyTrashed()->where('id', $faq->id)->restore();
-
-        alert()->success('سوال با موفقیت فعال شد ');
-        return redirect()->route('faq.index');
+        alert()->success('اطعات با موفقیت ثبت شد ');
+        return redirect()->route('userticket.show',$ticket->id);
     }
-
 }

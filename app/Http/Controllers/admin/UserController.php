@@ -157,5 +157,14 @@ class UserController extends Controller
         alert()->success('کاربر با موفقیت حذف شد ');
         return redirect()->route('user.index');
     }
+    public function user_bank_info(User $user,Request $request)
+    {
+        if($request->isMethod('post')){
+            $user->update(['confirm_bank_account'=>Carbon::now()]);
+            alert()->success("اطلاعات حساب باموفقبت تایید شد ");
+            return redirect()->route("user.index");
+        }
+        return view('admin.user.user_bank_info', compact(['user']));
+    }
 
 }

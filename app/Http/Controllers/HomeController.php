@@ -112,8 +112,16 @@ class HomeController extends Controller
     }
     public function logout()
     {
+
         Auth::logout();
         return redirect('/');
+    }
+
+    public function download(Request $request )
+    {
+
+        return response()->download(($request->path));
+        ;
     }
 
     public function check_login(Request $request)
@@ -132,7 +140,7 @@ class HomeController extends Controller
         if ($user && Hash::check($request->password, $user->password)) {
             Auth::login($user, true);
             alert()->success('   ورود با موفقیت انجام شد');
-            return redirect()->route('user.index');
+            return redirect()->route('redirect');
         } else {
             alert()->error('   اطلاعات ارسال شده صحیح نمی باشد');
             return back();
@@ -148,6 +156,8 @@ class HomeController extends Controller
         $mobile = $request->mobile;
         session()->put("mobile", $mobile);
         session()->put("rand", $rand);
+
+
         $user = User::whereMobile($mobile)->first();
         if (!$user) {
             $user = User::create([
@@ -156,6 +166,8 @@ class HomeController extends Controller
             ]);
             $user->assignRole("student");
         }
+        $user->send_pattern( $user->mobile, "svr5y3c1ophdnuo",['code'=>123]);
+
         return response()->json([
             'rand' => $rand,
             'mobile' => $mobile,

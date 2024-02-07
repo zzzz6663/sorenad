@@ -5,33 +5,28 @@
     {{ __("setting.app_title") }}
 </h2>
 @include("master.error")
-<form action="{{ route("setting.ads.app") }}" method="post">
+<form action="{{ route("advertiser.profile") }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('post')
     <h2 class="title_right"><i class="fa fa-user-o"></i>اطلاعات کلی</h2>
     <div class="dashboard_site_form">
-        <form>
 
             <div class="form_right_box flex_tworow">
-
                 <p>
                     <label for="fname">نام</label>
                     <input type="text" id="fname" value="{{ old("name",$user->name) }}"  name="name">
                 </p>
-
                 <p>
                     <label for="family">نام خانوادگی</label>
                     <input type="text" id="family" value="{{ old("family",$user->family) }}"  name="family">
                 </p>
-
                 <p>
                     <label for="mellicode">کد ملی</label>
                     <input type="text" id="mellicode" value="{{ old("mellicode",$user->mellicode) }}" name="mellicode">
                 </p>
-
                 <p>
                     <label for="mobile">شماره موبایل</label>
-                    <input type="text" id="mobile" value="{{ old("mobile",$user->mobile) }}" name="mobile">
+                    <input type="text" id="mobile" readonly value="{{ old("mobile",$user->mobile) }}" name="mobile">
                 </p>
 
             </div>
@@ -45,9 +40,6 @@
                 </p>
 
             </div>
-            <div class="clear2"></div>
-            <p><button id="submit_form">ثبت </button></p>
-        </form>
 
         <div class="clear"></div>
     </div>

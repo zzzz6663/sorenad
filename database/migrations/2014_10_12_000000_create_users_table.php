@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('bank',50)->nullable();
             $table->string('active',5)->default(0)->nullable();
             $table->string('deleted',5)->default(0)->nullable();
+            $table->timestamp('confirm_bank_account')->nullable();
             $table->string('vip',5)->default(0)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();

@@ -102,7 +102,17 @@ function load_animation() {
 }
 
 window.onload = function() {
+    stop_animation()
+    $("form").submit(function (e) {
+        load_animation()
+  });
 
+    $("a").click(function (e) {
+        if(!$(this).hasClass("no_link")){
+            load_animation()
+
+        }
+  });
 
     if( $('.persian_date').length){
         $(".persian_date").pDatepicker(

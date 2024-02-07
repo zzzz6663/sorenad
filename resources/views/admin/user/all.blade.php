@@ -110,8 +110,19 @@
                     <td>{{ jdate($user->created_at)->format("Y-m-d") }}</td>
                     <td>
                         <a href="{{ route("user.edit",$user->id) }}" class="btn btn-success">
-                            <i class="fa-solid fa-pen"></i>
+                            <i class="fa-solid fa-pen tooltiper" title="ویرایش کاربر"></i>
                         </a>
+                        @if($user->confirm_bank_account)
+                        <span>
+                            تایید شده در
+                            {{ jdate($user->confirm_bank_account)->format("Y-m-d") }}
+                        </span>
+                        @else
+                        <a href="{{ route("user.bank.info",$user->id) }}" class="btn btn-danger">
+                            <i class="fa-solid fa-money-check-dollar tooltiper" title="تایید اطلاعات حساب کاربر"></i>
+                        </a>
+                        @endif
+
                     </td>
 
                 </tr>

@@ -10,7 +10,7 @@ class Faq extends Model
     use HasFactory;
     protected $fillable=[
         'user_id',
-        'titile',
+        'title',
         'content',
     ];
 }

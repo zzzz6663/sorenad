@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{ asset("/site/libs/fs.css") }}">
     <link rel="stylesheet" href="{{ asset("/site/css/font-awesome.css") }}">
     <link rel="stylesheet" href="{{ asset("/site/libs/bs.css") }}">
+    <link rel="stylesheet" href="{{ asset("/site/libs/tooltipster.bundle.min.css") }}">
     <link rel="stylesheet" href="{{ asset("/site/libs/persian-datepicker.css") }}">
 
     <script src="{{ asset('/site/js/jquery.js') }}"></script>
@@ -31,7 +32,14 @@
     @includeWhen(empty($sidebar), 'admin.section.navbar')
     <section id="center_box">
             <div class="tarlanweb_center">
+                @auth
+                @if(auth()->user()->role=="admin")
                 @includeWhen(empty($sidebar), 'admin.section.sidebar')
+                @endif
+                @if(auth()->user()->role=="customer")
+                @includeWhen(empty($sidebar), 'admin.section.sidebar_customer')
+                @endif
+                @endauth
                <div id="sidebar_left">
                 @yield('content')
                </div>
