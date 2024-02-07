@@ -94,7 +94,7 @@ class User extends Authenticatable
         $pass = "Modir@5124";
         $fromNum = "+983000505";
         $toNum = array($mobile);
-        echo $client->sendPatternSms($fromNum,$toNum,$user,$pass,$pattern_code,$input_data);
+        $client->sendPatternSms($fromNum,$toNum,$user,$pass,$pattern_code,$input_data);
     }
     public function send_sms($mobile,$text){
 

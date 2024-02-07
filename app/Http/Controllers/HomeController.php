@@ -82,6 +82,9 @@ class HomeController extends Controller
             $mobile=$request->mobile;
             session()->put("rand",$rnd);
             session()->put("mobile",$mobile);
+            $user= new User;
+        $user->send_pattern( $mobile, "svr5y3c1ophdnuo",['code'=>            $rnd]);
+
             return response()->json([
                 'code'=>$rnd,
                 'all'=>$request->all(),
@@ -166,7 +169,6 @@ class HomeController extends Controller
             ]);
             $user->assignRole("student");
         }
-        $user->send_pattern( $user->mobile, "svr5y3c1ophdnuo",['code'=>123]);
 
         return response()->json([
             'rand' => $rand,
