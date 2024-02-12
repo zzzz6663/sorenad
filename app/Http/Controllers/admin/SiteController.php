@@ -38,8 +38,8 @@ class SiteController extends Controller
         if ($request->confirm) {
             $sites->where('confirm', "!=",null);
         }
-        if ($request->customer_id) {
-            $sites->where('customer_id', $request->customer_id);
+        if ($request->user_id) {
+            $sites->where('user_id', $request->user_id);
         }
         if ($request->from) {
             $request->from = $user->convert_date($request->from);
