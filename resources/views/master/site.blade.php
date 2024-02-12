@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset("/site/css/style.css") }}">
     <link rel="stylesheet" href="{{ asset("/site/libs/modal-loading.css") }}">
     <link rel="stylesheet" href="{{ asset("/site/libs/fs.css") }}">
+    <link rel="stylesheet" href="{{ asset("/site/libs/select2.css") }}">
     <link rel="stylesheet" href="{{ asset("/site/css/font-awesome.css") }}">
     <link rel="stylesheet" href="{{ asset("/site/libs/bs.css") }}">
     <link rel="stylesheet" href="{{ asset("/site/libs/tooltipster.bundle.min.css") }}">

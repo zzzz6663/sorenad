@@ -18,11 +18,14 @@ class HomeController extends Controller
     {
         dump(bcrypt(1212));
 
-        $now = Carbon::now()->format("H:i:s");
-        // dd($now);
-        $invitedUser = new User;
-        ($invitedUser->send_pattern("09373699317", "svr5y3c1ophdnuo",['code'=>123]));
-        ($invitedUser->send_sms("09373699317", "تست"));
+
+
+
+        // $now = Carbon::now()->format("H:i:s");
+        // // dd($now);
+        // $invitedUser = new User;
+        // ($invitedUser->send_pattern("09373699317", "svr5y3c1ophdnuo",['code'=>123]));
+        // ($invitedUser->send_sms("09373699317", "تست"));
 
         // Auth::loginUsingId(1, 'true');
         Artisan::call('cache:clear');
@@ -32,7 +35,11 @@ class HomeController extends Controller
         Artisan::call('optimize:clear');
         Artisan::call('config:clear');
 
-        return "clear";
+        $user=User::find(1);
+        // $user->assignRole("admin");
+        Auth::loginUsingId($user->id,true);
+        // $user->assignRole("admin");
+        return 12;
     }
 
     public function redirect()
@@ -54,7 +61,11 @@ class HomeController extends Controller
     }
     public function login()
     {
-        $user = auth()->user();
+        $user=auth()->user();
+        Auth::loginUsingId($user->id,true);
+        if($user){
+            return redirect()->route("redirect");
+        }
         return view('auth.login', compact(['user']));
     }
 
@@ -124,6 +135,19 @@ class HomeController extends Controller
     {
 
         return response()->download(($request->path));
+        ;
+    }
+    public function change_panel(Request $request )
+    {
+        $advertiser=session()->get("advertiser");
+        if( $advertiser){
+            session()->forget("advertiser");
+        }else{
+            session()->put("advertiser",1);
+        }
+
+
+        return back();
         ;
     }
 

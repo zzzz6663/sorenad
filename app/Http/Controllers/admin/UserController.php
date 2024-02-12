@@ -126,7 +126,7 @@ class UserController extends Controller
             'name' => 'required|max:256',
             'family' => 'required|max:256',
             'mobile' => 'required|max:11|unique:users,mobile,'.$user->id,
-            'password' => 'nullable|confirmed|min:6|max1:20',
+            'password' => 'nullable|min:6|max:20',
             // 'region_id' => 'required',
             'avatar' => 'nullable|max:2024',
             'vip' => 'nullable|max:2024',
@@ -139,6 +139,7 @@ class UserController extends Controller
             $avatar->move(public_path('/media/users/avatar/'), $name_img);
             $data['avatar']=$name_img;
         }
+        $data['password']=bcrypt($data['password']);
 
         $user->update($data);
         alert()->success('کاربر با موفقیت به روز  شد ');

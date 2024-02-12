@@ -60,7 +60,7 @@
     </div>
     @endif
 
-    @if($userticket->status!="closed")
+    @if($userticket->status!="close")
 
 
     <!-- ticket_box -->
@@ -89,7 +89,19 @@
 
     </div>
     <!-- ticket_item -->
+    @else
+    <h3>
+        تیکت بسته شده است
+    </h3>
     @endif
+    @role('admin')
+  <a href={{ route("ticket.index") }} class="btn btn-danger">برگشت </a>
+
+    @endrole
+    @role('customer')
+  <a href={{ route("userticket.index") }} class="btn btn-danger">برگشت </a>
+
+    @endrole
 
 
     <div class="clear"></div>

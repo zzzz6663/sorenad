@@ -101,24 +101,71 @@ function load_animation() {
     });
 }
 
-window.onload = function() {
+window.onload = function () {
     stop_animation()
     $("form").submit(function (e) {
         load_animation()
-  });
+    });
 
     $("a").click(function (e) {
-        if(!$(this).hasClass("no_link")){
+        if (!$(this).hasClass("no_link")) {
             load_animation()
 
         }
-  });
+    });
 
-    if( $('#box_chat').length){
-        
+    $('#send_pay').on("click", function(e) {
+        $(this).closest("form").submit()
+
+      })
+    $('.number_format').on("keyup change", function(e) {
+        let el = $(this);
+        let val = el.val();
+        console.log(60)
+        if (val > 0) {
+            let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+
+            console.log(num)
+            val = val.num2persian()
+            $('.persian_number').text(val + " تومان")
+            $('#amount_total').text(num + " تومان")
+            // if (el.closest('.col-12').find('.green_label').length) {
+            //     console.log(80)
+            //     console.log(num)
+            //     el.closest('.col-12').find('.green_label').html(val + " تومان" + num)
+            //     el.closest('.col-12').find('.yellow_label').html(num + " تومان" + num)
+            // } else {
+            //     console.log(70)
+            //     console.log(num)
+            //     el.closest('.col-12').append(`
+            //     <p class="yellow_label badge badge-success">
+            //     ${num}
+            //     </p>
+            //     <p class="green_label badge badge-success">  ${val} -     ${num}
+            //     تومان</p>
+
+
+            //     `)
+            // }
+
+        }else{
+            $('.persian_number').text(0 + " تومان")
+            $('#amount_total').text(0 + " تومان")
+        }
+    })
+
+
+
+    console.log(8080)
+    if ($('.select2').length) {
+        console.log(8080)
+        $('.select2').select2();
+    }
+    if ($('#box_chat').length) {
+
         $('#box_chat').scrollTop($('#box_chat')[0].scrollHeight);
     }
-    if( $('.persian_date').length){
+    if ($('.persian_date').length) {
         $(".persian_date").pDatepicker(
             {
                 "altField": '#timestamp',
@@ -132,20 +179,20 @@ window.onload = function() {
     if ($('.tooltiper').length) {
         $('.tooltiper').tooltipster();
     }
-let count=0
+    let count = 0
     $(document).on('click', '#check_code', function (event) {
 
         let code = $('#code').val()
-        if (count==3) {
+        if (count == 3) {
             Swal.fire({
                 text: "تعداد سعی شما  بیشتر از حد مجاز هست!",
                 showConfirmButton: false,
                 timer: 1500,
                 icon: "error",
-              });
-              setTimeout(() => {
+            });
+            setTimeout(() => {
                 location.reload();
-              }, 2000);
+            }, 2000);
             return
         }
 
@@ -155,8 +202,8 @@ let count=0
                 showConfirmButton: false,
                 timer: 1500,
                 icon: "error",
-              });
-              return
+            });
+            return
         }
 
         load_animation()
@@ -170,17 +217,17 @@ let count=0
             success: function (data) {
                 console.log(data)
                 stop_animation()
-                if(data.status=="ok"){
-                    window.location.href="/redirect"
+                if (data.status == "ok") {
+                    window.location.href = "/redirect"
 
-                }else{
+                } else {
                     count++
                     Swal.fire({
                         text: "لطفا کد   را به درستی وارد کنید!",
                         showConfirmButton: false,
                         timer: 1500,
                         icon: "error",
-                      });
+                    });
                 }
 
 
@@ -191,7 +238,7 @@ let count=0
                 stop_animation()
             }
         })
-      });
+    });
 
 
     $(document).on('click', '#wrong', function (event) {
@@ -200,7 +247,7 @@ let count=0
         $('#second').slideUp(400)
         $('#mobile').val("")
 
-      });
+    });
     $(document).on('click', '#send_code', function (event) {
         let mobile = $('#mobile').val()
 
@@ -212,8 +259,8 @@ let count=0
                 showConfirmButton: false,
                 timer: 1500,
                 icon: "error",
-              });
-              return
+            });
+            return
         }
         $('.mobile').text(mobile)
         load_animation()
@@ -247,6 +294,6 @@ let count=0
 
 
 
-  }
+}
 
 

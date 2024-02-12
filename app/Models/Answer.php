@@ -14,6 +14,7 @@ class Answer extends Model
         'ticket_id',
         'answer',
         'attach',
+        'seen',
 
     ];
     public function customer(){
@@ -31,4 +32,5 @@ class Answer extends Model
         }
         return false;
     }
+  
 }

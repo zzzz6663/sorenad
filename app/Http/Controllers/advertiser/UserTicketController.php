@@ -136,6 +136,14 @@ class UserTicketController extends Controller
         alert()->success('سوال با موفقیت حذف شد ');
         return redirect()->route('faq.index');
     }
+    public function close_ticket(Ticket $ticket ,Request $request)
+    {
+        $ticket->update(['status'=>"close"]);
+        alert()->success("تیکت با موفقیت بسته شد");
+        return back();
+
+    }
+
     public function new_answer(Ticket $ticket ,Request $request)
     {
         $user=auth()->user();
@@ -158,7 +166,7 @@ class UserTicketController extends Controller
 
 
         }
-
+        $ticket->update(["status"=> $data['status']]);
         $answer= $ticket->answers()->create($data);
         if ($request->hasFile('attach')) {
             $attach = $request->file('attach');
@@ -167,7 +175,7 @@ class UserTicketController extends Controller
             $answer->update(['attach' => $name_img]);
         }
 
-        alert()->success('سوال با موفقیت ثبت شد ');
+        alert()->success('جواب با موفقیت ثبت شد ');
         return redirect()->route('userticket.show',$ticket->id);
     }
 }

@@ -3,6 +3,9 @@
     <div class="bodydeactive"><i class="fa fa-close"></i></div>
 
     <div class="accordionWrapper box_shdow">
+        <span>
+          {{auth()->user()->role}}
+        </span>
         <a  class="{{(Route::currentRouteName()=='admin.dashoard')?'mactive':''}}"  href="{{ route("admin.dashoard") }}"><svg width="30px" height="30px" viewBox="-0.5 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M3.02 5.5H20.98C21.27 5.5 21.5 5.73 21.5 6.02V18.98C21.5 19.27 21.27 19.5 20.98 19.5H3.02C2.73 19.5 2.5 19.27 2.5 18.98V6.02C2.5 5.73 2.73 5.5 3.02 5.5Z" stroke="#000000" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
                 <path d="M12 8.25V10.25" stroke="#000000" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -15,29 +18,27 @@
                 <path d="M17 12.96V16.75" stroke="#000000" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg> پیشوان</a>
         {{-- {{(Route::currentRouteName()=='visit.index')?'active':''}} --}}
-        <div class="accordionItem close">
-            <div class="accordionItemHeading">
 
-                <span><svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="10" cy="6" r="4" stroke="#000000" stroke-width="1.5"></circle>
-                        <path d="M21 10H19M19 10H17M19 10L19 8M19 10L19 12" stroke="#000000" stroke-width="1.5" stroke-linecap="round"></path>
-                        <path d="M17.9975 18C18 17.8358 18 17.669 18 17.5C18 15.0147 14.4183 13 10 13C5.58172 13 2 15.0147 2 17.5C2 19.9853 2 22 10 22C12.231 22 13.8398 21.8433 15 21.5634" stroke="#000000" stroke-width="1" stroke-linecap="round"></path>
-                    </svg> مدیریت کاربران</span>
 
-                <div class="left_arrow"><svg width="10px" height="10px" viewBox="0 -19.04 75.804 75.804" xmlns="http://www.w3.org/2000/svg">
-                        <g id="Group_67" data-name="Group 67" transform="translate(-798.203 -587.815)">
-                            <path id="Path_59" data-name="Path 59" d="M798.2,589.314a1.5,1.5,0,0,1,2.561-1.06l33.56,33.556a2.528,2.528,0,0,0,3.564,0l33.558-33.556a1.5,1.5,0,1,1,2.121,2.121l-33.558,33.557a5.53,5.53,0,0,1-7.807,0l-33.56-33.557A1.5,1.5,0,0,1,798.2,589.314Z" stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </g>
-                    </svg></div>
+            <a href="{{ route("site.index") }}" class="{{(Route::currentRouteName()=='site.index')?'mactive':''}}">
+<i class="fas fa-globe-africa"></i>
 
-            </div>
-            <div class="accordionItemContent">
-                <ul>
-                    <li><a href="{{ route("user.index") }}"> نمایش دهنده ها</a></li>
-                    <li><a href=""> تبلیغ دهنده ها</a></li>
-                </ul>
-            </div>
-        </div>
+             مدیریت سایت</a>
+
+            <a href="{{ route("user.index") }}" class="{{(Route::currentRouteName()=='user.index')?'mactive':''}}">
+                <i class="fas fa-users"></i>
+
+             کابران
+            </a>
+
+            <a href="{{ route("transaction.index") }}" class="{{(Route::currentRouteName()=='transaction.index')?'mactive':''}}">
+                <i class="fas fa-users"></i>
+
+             تراکنش ها
+            </a>
+
+
+
         <a href=""><svg width="30px" height="30px" viewBox="-0.5 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M3.02 5.5H20.98C21.27 5.5 21.5 5.73 21.5 6.02V18.98C21.5 19.27 21.27 19.5 20.98 19.5H3.02C2.73 19.5 2.5 19.27 2.5 18.98V6.02C2.5 5.73 2.73 5.5 3.02 5.5Z" stroke="#000000" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
                 <path d="M12 8.25V10.25" stroke="#000000" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -50,9 +51,15 @@
                 <path d="M17 12.96V16.75" stroke="#000000" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
             </svg> مدیریت رسانه ها</a>
 
-        <a href=""><svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11 19H6.2C5.07989 19 4.51984 19 4.09202 18.782C3.71569 18.5903 3.40973 18.2843 3.21799 17.908C3 17.4802 3 16.9201 3 15.8V8.2C3 7.0799 3 6.51984 3.21799 6.09202C3.40973 5.71569 3.71569 5.40973 4.09202 5.21799C4.51984 5 5.0799 5 6.2 5H17.8C18.9201 5 19.4802 5 19.908 5.21799C20.2843 5.40973 20.5903 5.71569 20.782 6.09202C21 6.51984 21 7.0799 21 8.2V12M3 9H21M18 21V15M21 18.0008L15 18" stroke="#000000" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg> تسویه حساب ها</a>
+
+            <a href="{{ route("withdrawal.index") }}" class="{{(Route::currentRouteName()=='withdrawal.index')?'mactive':''}}">
+                <i class="fas fa-users"></i>
+
+                تسویه حساب ها
+                @if(auth()->user()->unread_withdrawal())
+                <span class="num_circle">{{ auth()->user()->unread_withdrawal() }}</span>
+                @endif
+            </a>
 
         <a href=""><svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 30 30" xml:space="preserve">
                 <style type="text/css">
@@ -124,6 +131,9 @@
                 <path id="Shape" d="M8,17.751a2.749,2.749,0,0,1,5.127-1.382C15.217,15.447,16,14,16,11.25v-3c0-3.992-2.251-6.75-5.75-6.75S4.5,4.259,4.5,8.25v3.5a.751.751,0,0,1-.75.75h-1A2.753,2.753,0,0,1,0,9.751v-1A2.754,2.754,0,0,1,2.75,6h.478c.757-3.571,3.348-6,7.022-6s6.264,2.429,7.021,6h.478a2.754,2.754,0,0,1,2.75,2.75v1a2.753,2.753,0,0,1-2.75,2.75H17.44A5.85,5.85,0,0,1,13.5,17.84,2.75,2.75,0,0,1,8,17.751Zm1.5,0a1.25,1.25,0,1,0,1.25-1.25A1.251,1.251,0,0,0,9.5,17.751Zm8-6.75h.249A1.251,1.251,0,0,0,19,9.751v-1A1.251,1.251,0,0,0,17.75,7.5H17.5Zm-16-2.25v1A1.251,1.251,0,0,0,2.75,11H3V7.5H2.75A1.251,1.251,0,0,0,1.5,8.751Z" transform="translate(1.75 2.25)" fill="#141124"></path>
             </svg>
             تیکت ها
+            @if(auth()->user()->unread_message())
+            <span class="num_circle">{{ auth()->user()->unread_message() }}</span>
+            @endif
         </a>
         <a href="{{ route("faq.index") }}" class="{{(Route::currentRouteName()=='faq.index')?'mactive':''}}">
             <svg width="30px" height="30px" viewBox="0 0 24 24" id="_24x24_On_Light_Support" data-name="24x24/On Light/Support" xmlns="http://www.w3.org/2000/svg">
@@ -132,6 +142,15 @@
             </svg>
             سوالات متداول
         </a>
+
+        <a href="{{ route("cat.index") }}" class="{{(Route::currentRouteName()=='cat.index')?'mactive':''}}">
+            <svg width="30px" height="30px" viewBox="0 0 24 24" id="_24x24_On_Light_Support" data-name="24x24/On Light/Support" xmlns="http://www.w3.org/2000/svg">
+                <rect id="view-box" width="24" height="24" fill="none"></rect>
+                <path id="Shape" d="M8,17.751a2.749,2.749,0,0,1,5.127-1.382C15.217,15.447,16,14,16,11.25v-3c0-3.992-2.251-6.75-5.75-6.75S4.5,4.259,4.5,8.25v3.5a.751.751,0,0,1-.75.75h-1A2.753,2.753,0,0,1,0,9.751v-1A2.754,2.754,0,0,1,2.75,6h.478c.757-3.571,3.348-6,7.022-6s6.264,2.429,7.021,6h.478a2.754,2.754,0,0,1,2.75,2.75v1a2.753,2.753,0,0,1-2.75,2.75H17.44A5.85,5.85,0,0,1,13.5,17.84,2.75,2.75,0,0,1,8,17.751Zm1.5,0a1.25,1.25,0,1,0,1.25-1.25A1.251,1.251,0,0,0,9.5,17.751Zm8-6.75h.249A1.251,1.251,0,0,0,19,9.751v-1A1.251,1.251,0,0,0,17.75,7.5H17.5Zm-16-2.25v1A1.251,1.251,0,0,0,2.75,11H3V7.5H2.75A1.251,1.251,0,0,0,1.5,8.751Z" transform="translate(1.75 2.25)" fill="#141124"></path>
+            </svg>
+            دسته بندی ها
+        </a>
+
 
 
         <div class="accordionItem close">

@@ -62,19 +62,59 @@ class User extends Authenticatable
 
 
 
+    public function transactions(){
+        return $this->hasMany(Transaction::class);
+
+    }
+    public function withdrawals(){
+        return $this->hasMany(Withdrawal::class);
+
+    }
     public function tickets(){
         return $this->hasMany(Ticket::class);
 
     }
-    public function answer(){
-        return $this->hasMany(Answer::class);
+    public function sites(){
+        return $this->hasMany(Site::class);
 
     }
+    public function answer(){
+        return $this->hasMany(Answer::class);
+    }
+    public function balance(){
+        return $this->transactions()->whereIn("status",["wait_for_admin_confirm","payed"])->sum("amount");
+    }
+
     public function avatar(){
         if($this->avatar){
             return asset("/media/users/avatar/".$this->avatar);
         }
         return "/site/images/avatar.png";
+    }
+    public function total_withdrawal(){
+        return $this->withdrawals()->whereStatus("admin_confirmed")->sum("amount");
+    }
+    public function unread_message(){
+        if($this->role=="admin"){
+            return Ticket::whereHas("answers",function($query){
+            // $query->whereSeen(null);
+           })->whereStatus("wait_for_admin")->count();
+        }
+
+        if($this->role=="customer"){
+            return Ticket::where("customer_id",$this->id)->whereHas("answers",function($query){
+            // $query->whereSeen(null);
+           })->whereStatus("wait_for_customer")->count();
+        }
+    }
+    public function unread_withdrawal(){
+        if($this->role=="admin"){
+            return Withdrawal::whereStatus("wait_for_admin_confirm")->count();
+        }
+
+        // if($this->role=="customer"){
+        //     return Withdrawal::whereStatus("wait_for_admin_confirm")->count();
+        // }
     }
 
     public function send_pattern($mobile,$pattern_code,$input_data){
