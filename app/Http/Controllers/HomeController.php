@@ -62,8 +62,8 @@ class HomeController extends Controller
     public function login()
     {
         $user=auth()->user();
-        Auth::loginUsingId($user->id,true);
         if($user){
+        Auth::loginUsingId($user->id,true);
             return redirect()->route("redirect");
         }
         return view('auth.login', compact(['user']));
