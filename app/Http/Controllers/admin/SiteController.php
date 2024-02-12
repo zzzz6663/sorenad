@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\admin;
 use Carbon\Carbon;
-use App\Models\site;
 // use App\Notifisiteions\SendKaveCode;
+use App\Models\Site;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\User;
 
 class SiteController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listidng of the resource.
      *
      * @return \Illuminate\Http\Response
      */

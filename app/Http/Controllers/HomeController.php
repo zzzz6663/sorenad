@@ -63,6 +63,7 @@ class HomeController extends Controller
     {
         $user=auth()->user();
         if($user){
+            // ddddd
         Auth::loginUsingId($user->id,true);
             return redirect()->route("redirect");
         }
