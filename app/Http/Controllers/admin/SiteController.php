@@ -19,6 +19,7 @@ class SiteController extends Controller
     {
         $user=auth()->user();
         $sites = Site::query();
+        // ssssss
         // if ($request->search) {
         //     $search = $request->search;
         //     $sites->where('name', 'LIKE', "%{$search}%")
