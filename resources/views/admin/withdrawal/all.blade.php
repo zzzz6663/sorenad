@@ -40,11 +40,11 @@
             </div>  --}}
 
             <div class="col-lg-2">
-                <label for="customer_id">مشتری  </label>
-                <select class="form-control select2" name="customer_id" id="customer_id"  >
+                <label for="user_id">مشتری  </label>
+                <select class="form-control select2" name="user_id" id="user_id"  >
                     <option value=""> انتخاب کنید </option>
                     @foreach ($customers as $customer )
-                        <option  {{ request("customer_id")?"selected":"0" }} value="{{ $customer->id }}">
+                        <option  {{ request("user_id")?"selected":"0" }} value="{{ $customer->id }}">
                             {{ $customer->name }}
                             {{ $customer->family }}
                         </option>
