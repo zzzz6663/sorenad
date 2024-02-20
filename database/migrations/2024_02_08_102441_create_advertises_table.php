@@ -25,6 +25,17 @@ return new class extends Migration
             $table->string("device",100)->nullable();
             $table->string("banner1",100)->nullable();
             $table->string("banner2",100)->nullable();
+            $table->string("banner",100)->nullable();
+            $table->string("icon",100)->nullable();
+            $table->string("status",25)->nullable();
+            $table->string("price",25)->nullable();
+            $table->string("remain",25)->nullable();
+            $table->string("count_type",25)->nullable();
+            $table->string("payed",25)->default(0)->nullable();
+            $table->integer("click_count")->nullable();
+            $table->timestamp("confirm")->nullable();
+            $table->integer("view_count")->nullable();
+            $table->integer("show_display_ad_perday")->nullable();
             $table->timestamps();
         });
 

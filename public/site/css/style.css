@@ -25,6 +25,7 @@ strong{font-weight: bold;}
 a{
     text-decoration: none!important;
 }
+
 @font-face{
 font-family: shabnam;
 src: url('/site/fonts/shabnam.woff') format('woff');
@@ -37,11 +38,26 @@ src: url('/site/fonts/shabnam-bold.woff') format('woff');
 font-weight: bold;
 font-display: swap;
 }
-input,button,textarea,select{font-family: shabnam,tahoma;outline: none;
+@font-face{
+font-family: vazir;
+src: url('/site/fonts/Vazir-Medium-FD-WOL.woff') format('woff');
+font-weight: bold;
+font-display: swap;
+}
+@font-face{
+font-family: vazir;
+src: url('/site/fonts/Vazir-Bold-FD-WOL.woff') format('woff');
+font-weight: normal;
+font-display: swap;
+}
+body{
+    font-family: vazir!important;
+}
+input,button,textarea,select{font-family: vazir,tahoma;outline: none;
 transition: all 0.3s ease-in-out;-moz-transition: all 0.3s ease-in-out;
 -webkit-transition: all 0.3s ease-in-out;}
 *{box-sizing: border-box;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;outline: none;}
-body{background: #fff;color: #515151;font-family: shabnam,tahoma;font-size: 15px;line-height: 28px;
+body{background: #fff;color: #515151;font-family: vazir,tahoma;font-size: 15px;line-height: 28px;
 direction: rtl;text-align: right;overflow-x: hidden;font-weight: 500;}
 a{color: #515151;outline: unset;}
 .tarlanweb_center{width: 1300px;height: auto;margin: 0 auto;position: relative;}
@@ -326,7 +342,7 @@ border-radius: 5px;}
 .amar_item i.fa{color: #06b3f3;}
 .amar_item > p:first-child{margin-bottom: 10px;font-size: 15px;}
 .highcharts-background,.highcharts-grid,.highcharts-xaxis-grid,.highcharts-axis,.highcharts-yaxis,.highcharts-title
-,.highcharts-axis-labels,.highcharts-xaxis-labels,.highcharts-legend-item,.highcharts-area-series,.highcharts-color-0,.highcharts-series-0{font-family: shabnam !important;}
+,.highcharts-axis-labels,.highcharts-xaxis-labels,.highcharts-legend-item,.highcharts-area-series,.highcharts-color-0,.highcharts-series-0{font-family: vazir !important;}
 .highcharts-credits{display: none;}
 @keyframes swing {
     0%,

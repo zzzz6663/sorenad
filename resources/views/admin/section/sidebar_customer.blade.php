@@ -464,7 +464,12 @@
             </svg> گزارش نمایش تبلیغات </a>
 
 
-        <div class="accordionItem close">
+        <div class="accordionItem {{in_array(Route::currentRouteName(),[
+            'advertiser.list',
+            'advertiser.new.ad.popup',
+            'advertiser.new.ad.app',
+            ])?"open":"close"}}"
+            >
             <div class="accordionItemHeading">
 
                 <span><svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 30 30" xml:space="preserve">
@@ -493,12 +498,16 @@
             </div>
             <div class="accordionItemContent">
                 <ul>
-                    <li><a href="">تبلیغات پاپ آپ</a></li>
-                    <li><a href="">تبلیغات نصب اپلیکیشن</a></li>
+
+                    <li class="subitem {{ Route::currentRouteName()=="advertiser.list"?"active":"" }}"><a href="{{ route("advertiser.list") }}"> لیست تبلیغات</a></li>
+                    <li class="subitem {{ Route::currentRouteName()=="advertiser.new.ad.popup"?"active":"" }}"><a href="{{ route("advertiser.new.ad.popup") }}">تبلیغات پاپ آپ</a></li>
+                    <li class="subitem {{ Route::currentRouteName()=="advertiser.new.ad.app"?"active":"" }}"><a href="{{ route("advertiser.new.ad.app") }}">تبلیغات نصب اپلیکیشن</a></li>
+
+                    {{--  <li><a href="">تبلیغات نصب اپلیکیشن</a></li>
                     <li><a href="">تبلیغات پست ثابت</a></li>
                     <li><a href="">تبلیغات ویدیویی</a></li>
                     <li><a href="">تبلیغات متنی</a></li>
-                    <li><a href="">تبلیغات بنری</a></li>
+                    <li><a href="">تبلیغات بنری</a></li>  --}}
                 </ul>
             </div>
         </div>

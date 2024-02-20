@@ -75,6 +75,7 @@ class TransactionController extends Controller
             // 'region_id' => 'required',
             'avatar' => 'nullable',
         ]);
+
         $user = User::create($data);
 
         if ($request->hasFile('avatar')) {
@@ -121,7 +122,6 @@ class TransactionController extends Controller
      */
     public function update(Request $request, User $user)
     {
-
         $data = $request->validate([
             'name' => 'required|max:256',
             'family' => 'required|max:256',
@@ -132,7 +132,6 @@ class TransactionController extends Controller
             'vip' => 'nullable|max:2024',
             'active' => 'nullable|max:2024',
         ]);
-
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
             $name_img = 'avatar_' . $user->id . '.' . $avatar->getClientOriginalExtension();

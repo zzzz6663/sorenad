@@ -26,7 +26,7 @@
             <form class="money_req_form">
                 <input type="number" id="amount" name="amount" class="form-control number_format" placeholder="تومان">
                 <div class="mony_bid">
-                    <span>مبالغ پیشنهادی</span> <i>5 میلیون تومان</i> <i>10 میلیون تومان</i> <i>15 میلیون تومان</i>
+                    <span>مبالغ پیشنهادی</span> <i data-price="5000000" class="per_price">5 میلیون تومان</i> <i data-price="10000000" class="per_price">10 میلیون تومان</i> <i data-price="15000000" class="per_price">15 میلیون تومان</i>
                 </div>
                 <div class="mony_pay_info flex">
                     <p>مبلغ قابل پرداخت</p>
@@ -47,15 +47,16 @@
         <div class="clear"></div>
     </div>
 </form>
-<h2 class="title_right">لیست درخواست ها</h2>
+<h2 class="title_right">لیست تراکنش ها ها</h2>
 <div class="flex dashbord_table">
     <div class="dashbord_table_title">
         <ul class="flex">
             <li>id</li>
-            <li>شماره درخواست</li>
+            <li>شماره </li>
             <li>مبلغ </li>
-            <li>تاریخ درخواست</li>
-            <li>وضعیت درخواست</li>
+            <li>تاریخ </li>
+            <li>نوع </li>
+            <li>وضعیت </li>
             <li>صدور فاکتور</li>
         </ul>
     </div>
@@ -66,10 +67,17 @@
             <li>{{ $loop->iteration }}</li>
             <li>{{ $transaction->transactionId }}</li>
             <li>
+                <span class="text text-{{( $transaction->amount>0?"success":"danger") }} ">
  {{number_format( $transaction->amount) }}
                 <span class="price_format">تومان</span>
+            </span>
+
             </li>
             <li>{{jdate( $transaction->created_at) }} </li>
+
+            <li>
+                {{ __("arr.".$transaction->type) }}
+            </li>
             <li> {{ __("t_status.".$transaction->status) }}</li>
             <li><a href="{{ route("customer.transaction.factor",['action'=>$transaction->transactionId]) }}">
                 <i class="fas fa-file-pdf"></i>

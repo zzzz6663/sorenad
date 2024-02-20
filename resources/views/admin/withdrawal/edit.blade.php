@@ -18,11 +18,9 @@
                 <form action="{{ route("withdrawal.update" ,$withdrawal->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('patch')
-
                     <h5>
                         این درخواست در تاریخ
                            <span class="text text-bg-primary"> {{ jdate($withdrawal->created_at) }}</span>
-
                         به مبلغ
                         <span class="text text-bg-success">
                             {{ number_format($withdrawal->amount) }}
@@ -34,6 +32,27 @@
                     <h6 class="text text-danger">
                         بعداز ذخیره این عملیات قابل ویرایش نیست
                     </h6>
+
+                    <p>
+                        نام صاحب حساب:
+                    {{ $withdrawal->user->account }}
+
+                    </p>
+                    <p>
+                        شماره شبا:
+                    {{ $withdrawal->user->shaba }}
+
+                    </p>
+                    <p>
+                        شماره کارت:
+                    {{ $withdrawal->user->cart }}
+
+                    </p>
+                    <p>
+                         کدملی:
+                    {{ $withdrawal->user->a_mellicode }}
+
+                    </p>
 
                  <div class="row">
                     <div class="co-lg-6">
@@ -49,7 +68,7 @@
                     <div class="co-lg-6">
                         <div class="mb-3">
                             <label class="form-label" for="password">
-                                فایل پیوست 
+                                فایل پیوست
                             </label>
                             <input type="file" class="form-control" accept="image/*" name="attach">
                         </div>

@@ -92,6 +92,7 @@
                     <th>نام </th>
                     <th>مقدار </th>
                     <th>وضعیت </th>
+                    <th>نوع</th>
                     <th>تاریخ</th>
 
                     <th>عملیات</th>
@@ -106,13 +107,19 @@
                         {{ $transaction->user->name }}
                         {{ $transaction->user->family }}
                     </td>
-                    <td>{{number_format( $transaction->amount) }}
-                        تومان
+                    <td>
+
+                        <span class="text text-{{( $transaction->amount>0?"success":"danger") }} ">
+                            {{number_format( $transaction->amount) }}
+                                           <span class="price_format">تومان</span>
                     </td>
                     <td>
                        <span class="alert alert-{{ $transaction->status=="before_pay"?"danger":"" }}{{ $transaction->status=="payed"?"success":"" }}{{ $transaction->status==""?"":"" }}">
                         {{ __("t_status.".$transaction->status) }}
                        </span>
+                    </td>
+                    <td>
+                        {{ __("arr.".$transaction->type) }}
                     </td>
 
                     <td>{{ jdate($transaction->created_at)->format("Y-m-d") }}</td>

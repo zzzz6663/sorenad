@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Section;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Advertise;
 use App\Models\Faq;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -24,10 +25,135 @@ class AdvertiserController extends Controller
         return view('advertiser.faqs', compact(["user", "faqs"]));
     }
 
+    public function advertiser_list(Request $request)
+    {
+        $user = auth()->user();
+        $advertises = $user->advertises;
+        return view('advertiser.advertiser_list', compact(["user", "advertises"]));
+    }
+
+    public function advertiser_new_ad_popup(Request $request,Advertise $advertise)
+    {
+        $user = auth()->user();
+        $price=$user->view_price();
+        if ($request->isMethod("post")) {
+            // dd($request->all());
+            if($advertise->id){
+                $data['view_count']=  $advertise->view_count;
+                $data['login_link_page']=  $advertise->login_link_page;
+                $data['limit_daily_view']=  $advertise->limit_daily_view;
+                $data['title']=  $advertise->title;
+                $data['device']=  $advertise->device;
+                $data['pay_type']=  $request->pay_type;
+                $data["type"]="popup";
+            }
+            else{
+                $data = $request->validate([
+                    'view_count' => "required|integer|min:1000",
+                    'login_link_page' => "required|url",
+                    'limit_daily_view' => "required",
+                    'title' => "required",
+                    'device' => "required",
+                    'pay_type' => "required",
+                ]);
+                $data["type"]="popup";
+                $data["status"]="created";
+                $advertise=$user->advertises()->create($data);
+            }
+
+            $data['advertise_id']=  $advertise->id;
+
+            return redirect()->route("send.pay",['type'=>"popup","data"=>$data]);
+
+        }
+
+        return view('advertiser.advertiser_new_ad_popup', compact(["user","price"]));
+    }
+    public function advertiser_new_ad_app(Request $request,Advertise $advertise)
+    {
+        $user = auth()->user();
+        $click=$user->click_price();
+        $view=$user->view_price();
+        if ($request->isMethod("post")) {
+
+
+
+            if($advertise->id){
+                $data['title']=  $advertise->title;
+                $data['info']=  $advertise->info;
+                $data['login_link_page']=  $advertise->login_link_page;
+                $data['download_name']=  $advertise->download_name;
+                $data['icon']=  $advertise->icon;
+                $data['banner']=  $advertise->banner;
+                $data['limit_daily_view']=  $advertise->limit_daily_view;
+
+                $data['click_count']=  $advertise->click_count;
+                $data['limit_daily_click']=  $advertise->limit_daily_click;
+
+                $data['view_count']=  $advertise->view_count;
+                $data['limit_daily_view']=  $advertise->limit_daily_view;
+
+
+                $data['pay_type']=  $request->pay_type;
+                $data["type"]="app";
+            }
+            else{
+                // dd($request->all());
+                $data = $request->validate([
+                    'title' => "required|max:256",
+                    'info' => "required|max:1500",
+                    'login_link_page' => "required|url",
+                    'download_name' => "required",
+                    'icon' => "required",
+                    'banner' => "required",
+                    'count_type' => "required",
+
+                    'click_count' => "required_if:count_type,click",
+                    'limit_daily_click' => "required_if:count_type,click",
+                    'view_count' => "required_if:count_type,view",
+                    'limit_daily_view' => "required_if:count_type,view",
+                    'pay_type' => "required",
+                    // 'icon' => "required|mimes:jpg,png,jpeg,gif|max:200|dimensions:width=32,height=32",
+                    // 'banner' => "required|mimes:jpg,png,jpeg,gif|max:200|dimensions:width=554,height=276",
+                    'icon' => "nullable|mimes:jpg,png,jpeg,gif|max:200",
+                    'banner' => "nullable|mimes:jpg,png,jpeg,gif|max:200",
+                    'cats' => "nullable",
+                ]);
+                $data["type"]="app";
+                $data["status"]="created";
+
+                $advertise=$user->advertises()->create($data);
+                if ($request->hasFile('icon')) {
+                    $icon = $request->file('icon');
+                    $name_img = 'icon_' . $advertise->id . '.' . $icon->getClientOriginalExtension();
+                    $icon->move(public_path('/media/advertises/'), $name_img);
+                    $data['icon'] = $name_img;
+                }
+                if ($request->hasFile('banner')) {
+                    $banner = $request->file('banner');
+                    $name_img = 'banner_' . $advertise->id . '.' . $banner->getClientOriginalExtension();
+                    $banner->move(public_path('/media/advertises/'), $name_img);
+                    $data['banner'] = $name_img;
+                }
+
+                $advertise->update($data);
+                if($request->cats){
+                    $advertise->cats()->attach($data['cats']);
+                }
+
+            }
+
+            $data['advertise_id']=  $advertise->id;
+
+            return redirect()->route("send.pay",['type'=>"app","data"=>$data]);
+
+        }
+        return view('advertiser.advertiser_new_ad_app', compact(["user","click" ,"view"]));
+    }
     public function withdrawal_request(Request $request)
     {
         $user = auth()->user();
-         
+
         if ($request->isMethod("post")) {
             $data = $request->validate([
                 'amount' => "required|integer|min:100000|max:".   $user->balance(),

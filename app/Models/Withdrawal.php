@@ -23,6 +23,7 @@ class Withdrawal extends Model
     public function transaction(){
         return $this->hasOne(Transaction::class);
     }
+  
     public function attach(){
         if($this->attach){
             return public_path("/media/users/withdrawal/".$this->attach);

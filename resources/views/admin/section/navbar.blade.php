@@ -32,6 +32,11 @@
 
                             </p>
                             <p> {{auth()->user()->mobile}}</p>
+                            @role('customer')
+                            <p> {{number_format(auth()->user()->balance())}}
+                                تومان
+                            </p>
+                            @endrole
                         </div>
                         <div class="top_acc_b">
                             <ul>

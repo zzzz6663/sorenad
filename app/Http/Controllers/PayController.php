@@ -8,6 +8,7 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Shetabit\Multipay\Invoice;
 use App\Http\Controllers\Controller;
+use App\Models\Advertise;
 use Shetabit\Payment\Facade\Payment;
 use Shetabit\Multipay\Exceptions\InvalidPaymentException;
 
@@ -19,48 +20,106 @@ class PayController extends Controller
         $via = 'zarinpal';
         $type = $request->type;
         $amount = $request->amount;
+        $pay_type = $request->pay_type;
+        $data = $request->data;
+        $advertise_id = null;
+        // dd($request->all());
 
-        if ($amount <100000) {
-            alert()->warning(' حداقل مبلغ صد هزار  تومان میباشد  ');
-            return back();
+
+        switch ($type) {
+            case "charge":
+                if ($amount < 100000) {
+                    alert()->warning(' حداقل مبلغ صد هزار  تومان میباشد  ');
+                    return back();
+                }
+                if ($amount % 100000 != 0) {
+                    alert()->warning('  مبلغ باید مضربی از  صد هزار  تومان میباشد  ');
+                    return back();
+                }
+                break;
+            case "popup":
+                $price = $user->view_price() * $data['view_count'];
+                $amount = floor($price + (($price * $user->tax_percent()) / 100));
+
+                $pay_type = $data["pay_type"];
+                // $data['status'] = "created";
+                // $data['price'] = $amount;
+                // $data['remian'] = $amount;
+                // $data['payed'] = 0;
+                $advertise = Advertise::find($data['advertise_id']);
+                $advertise->update(['price'=>$amount]);
+                $advertise_id = $advertise->id;
+                if ($data['pay_type'] == "acc_money") {
+                    if ($user->balance() > $amount) {
+                        $transaction = $user->transactions()->create([
+                            'amount' => -1 * $amount,
+                            'transactionId' => $advertise_id . "888",
+                            'type' => "withdraw_wallet_for_ad",
+                            'pay_type' => $pay_type,
+                            'advertise_id' => $advertise_id,
+                            'status' => "payed",
+                        ]);
+                        $advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
+                        alert()->success("پرداخت با موفیت از کیف پول انجام شد  ");
+                        return redirect()->route("advertiser.list");
+                    } else {
+                        $amount -= $user->balance();
+                    }
+                }
+
+                break;
+            case "app":
+                $advertise = Advertise::find($data['advertise_id']);
+                if ($advertise->count_type == "click") {
+                    $price = $user->click_price() * $data['click_count'];
+                    $amount = floor($price + (($price * $user->tax_percent()) / 100));
+                }
+
+                if ($advertise->count_type == "view") {
+                    $price = $user->view_price() * $data['view_count'];
+                    $amount = floor($price + (($price * $user->tax_percent()) / 100));
+                }
+
+
+                $pay_type = $data["pay_type"];
+                // $data['status'] = "created";
+                // $data['price'] = $amount;
+                // $data['remian'] = $amount;
+                // $data['payed'] = 0;
+                $advertise_id = $advertise->id;
+                $advertise->update(['price'=>$amount]);
+                if ($data['pay_type'] == "acc_money") {
+                    if ($user->balance() > $amount) {
+                        $transaction = $user->transactions()->create([
+                            'amount' => -1 * $amount,
+                            'transactionId' => $advertise_id . "777",
+                            'type' => "withdraw_wallet_for_ad",
+                            'pay_type' => $pay_type,
+                            'advertise_id' => $advertise_id,
+                            'status' => "payed",
+                        ]);
+                        $advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
+                        alert()->success("پرداخت با موفیت از کیف پول انجام شد  ");
+                        return redirect()->route("advertiser.list");
+                    } else {
+
+                        $amount -= $user->balance();
+                    }
+                }
+                break;
         }
-
-        if ($amount %100000!=0) {
-            alert()->warning('  مبلغ باید مضربی از  صد هزار  تومان میباشد  ');
-            return back();
-        }
-        // $invoice = (new Invoice)->amount(1000);
-
-
-        // $invoice->amount(1000);
-        // return   Payment::via($via)->callbackUrl(route('pay.verify'))->purchase($invoice,
-        //  function ($driver, $transactionId) use ($user,$type,) {
-
-        // })->pay()->render();
-        // $invoice = (new Invoice)->amount(1000);
-        // // Purchase and pay the given invoice.
-        // // You should use return statement to redirect user to the bank page.
-        // return Payment::purchase($invoice, function ($driver, $transactionId) {
-        //     // Store transactionId in database as we need it to verify payment in the future.
-        // })->pay()->render();
-
-
         $invoice = (new Invoice);
-
-        // if(!$amount || $amount %10000 !=0){
-        //     alert()->warning('مقدار پرداخت باید مضربی از صفر باشد');
-        //     return redirect()->route('client',['route'=>route("serial.result")]);
-        // }
-        // $amount=10000;
 
         $invoice->amount($amount);
         return   Payment::via($via)->callbackUrl(route('pay.verify'))->purchase(
             $invoice,
-            function ($driver, $transactionId) use ($user, $type, $invoice, $amount) {
+            function ($driver, $transactionId) use ($user, $type, $invoice, $amount, $pay_type, $advertise_id) {
                 $transaction = $user->transactions()->create([
                     'amount' => $amount,
                     'transactionId' => $transactionId,
-                    'type' => $type,
+                    'type' => "charge",
+                    'pay_type' => $pay_type,
+                    'advertise_id' => $advertise_id,
                 ]);
             }
         )->pay()->render();
@@ -95,12 +154,43 @@ class PayController extends Controller
         }
 
         try {
-            $receipt = Payment::amount((int)$amount)->transactionId($request->Authority)->verify();
+
+            $receipt = Payment::amount(abs((int)$amount))->transactionId($request->Authority)->verify();
             if ($request->Status == 'OK') {
+                if ($transaction->pay_type == "acc_money") {
+                    $user->transactions()->create([
+                        'amount' => -1 * ($transaction->amount + $user->balance()),
+                        'transactionId' => $transaction->advertise_id . "777",
+                        'type' => "withdraw_wallet_for_ad",
+                        'pay_type' => $transaction->pay_type,
+                        'advertise_id' =>  $transaction->advertise_id,
+                        'status' => "payed",
+                    ]);
+                }
+
+
+                switch ($transaction->type) {
+                    case "charge":
+                        break;
+                    case "app":
+                    case "popup":
+                        // if ($transaction->pay_type == "acc_money" && $user->balance() > 0) {
+                        //     $user->transactions()->create([
+                        //         'amount' => -1 * $user->balance(),
+                        //         'transactionId' => 888,
+                        //         'type' => "cash_withdrawal_for_ad",
+                        //         'pay_type' => "acc_money",
+                        //         'advertise_id' => $transaction->advertise_id,
+                        //         'status' => "payed",
+                        //     ]);
+                        // }
+                        $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
+                        break;
+                }
                 $transaction->update([
                     'status' => 'payed',
+                    'payed' => '1',
                 ]);
-
             }
         } catch (InvalidPaymentException $exception) {
             /**

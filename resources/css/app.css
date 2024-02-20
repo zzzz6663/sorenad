@@ -109,3 +109,6 @@ input[type=number] {
     text-align: center;
 
 }
+.per_price{
+    cursor: pointer;
+}

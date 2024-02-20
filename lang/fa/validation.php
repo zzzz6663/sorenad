@@ -53,7 +53,7 @@ return [
         'numeric' => ':attribute باید بزرگتر یا مساوی :value باشد.',
         'file'    => ':attribute باید بزرگتر یا مساوی :value کیلوبایت باشد.',
         'string'  => ':attribute باید بیشتر یا مساوی :value کاراکتر داشته باشد.',
-        'array'   => ':attribute باید بیشتر یا مساوی :value آیتم داشته باشد.',
+        'array'   => ':attribute باید بیشتر یا مساوی :value آیتم داشته باشد.',     
     ],
     'image'                => ':attribute باید یک تصویر معتبر باشد.',
     'in'                   => ':attribute انتخاب شده، معتبر نیست.',
@@ -128,6 +128,7 @@ return [
     */
 
     'custom' => [
+        'click'                  => 'نام',
     ],
 
     /*
@@ -141,6 +142,9 @@ return [
     |
     */
 
+    'value' => [
+        'click'                  => 'نام',
+    ],
     'attributes' => [
         'name'                  => 'نام',
         'username'              => 'نام کاربری',
@@ -195,7 +199,7 @@ return [
         'short '                  => ' خلاصه   ',
         ' payam'                  => '  متن نامه ',
         'fa_name'                  => '    نام فارسی',
-//        'en_name '                  => '   نام لاتین ',
+        'en_name '                  => '   نام لاتین ',
         'img'                  => '  عکس  ',
         'max_price'                  => '   حداکثر قیمت  ',
         'min_price'                  => '  حداقل قیمت   ',
@@ -314,7 +318,24 @@ return [
         'a_mellicode'                  => 'کد ملی صاحب حساب ',
         'bank'                  => ' بانک',
         'site'                  => ' سایت ',
+        'order_count'                  => ' تعداد سفارش',
+        'login_link_page'                  => ' لینک صفحه فرود',
+        'limit_daily_view'                  => 'نمایش  در روز ',
+        'device'                  => 'دستگاه تبلیغ  ',
+        'pay_type'                  => ' روش پرداخت',
+        'banner'                  => ' فایل بنر برنامه',
+        'icon'                  => ' فایل آیکون برنامه ',
+        'info'                  => ' توضیحات',
+        'download_name'                  => 'متن دکمه دانلود ',
+        'view_count'                  => ' مدل قیمت گذاری
+        ',
+        'click_count'                  => ' تعداد کلیک',
+        'limit_daily_click'                  => ' محدودیت کلیک روزانه',
+        'count_type'                  => ' مدل قیمت گذاری',
+        'click'                  => 'کلیک ',
         ''                  => ' ',
+        ''                  => ' ',
+
 
 
     ],

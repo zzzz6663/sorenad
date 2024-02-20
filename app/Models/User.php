@@ -62,6 +62,10 @@ class User extends Authenticatable
 
 
 
+    public function advertises(){
+        return $this->hasMany(Advertise::class);
+
+    }
     public function transactions(){
         return $this->hasMany(Transaction::class);
 
@@ -106,6 +110,15 @@ class User extends Authenticatable
             // $query->whereSeen(null);
            })->whereStatus("wait_for_customer")->count();
         }
+    }
+    public function view_price(){
+        return 25;
+    }
+    public function click_price(){
+        return 500;
+    }
+    public function tax_percent(){
+        return 4.5;
     }
     public function unread_withdrawal(){
         if($this->role=="admin"){

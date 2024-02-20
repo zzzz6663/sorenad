@@ -45,12 +45,15 @@ Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function
 
     Route::any('/user_bank_info/{user}', 'UserController@user_bank_info')->name('user.bank.info');
     Route::post('/site_confirm/{site}', 'SiteController@site_confirm')->name('site.confirm');
+    Route::post('/advertise_confirm/{advertise}', 'AdvertiseController@advertise_confirm')->name('advertise.confirm');
+
     Route::resource('user', 'UserController')->middleware(['role:admin']);;;
     Route::resource('faq', 'FaqController')->middleware(['role:admin']);;;
     Route::resource('cat', 'CatController')->middleware(['role:admin']);;;
     Route::resource('site', 'SiteController')->middleware(['role:admin']);;;
     Route::resource('ticket', 'TicketController')->middleware(['role:admin']);;;;;;
     Route::resource('transaction', 'TransactionController')->middleware(['role:admin']);;;;;;
+    Route::resource('advertise', 'AdvertiseController')->middleware(['role:admin']);;;;;;
     Route::resource('withdrawal', 'WithdrawalController')->middleware(['role:admin']);;;;;;
 });
 
@@ -66,6 +69,9 @@ Route::prefix('advertiser')->middleware(['auth'])->namespace('advertiser')->grou
     Route::get('/faqs', 'AdvertiserController@faqs')->name('advertiser.faqs');
     Route::any('/sites', 'AdvertiserController@sites')->name('advertiser.sites');
     Route::any('/withdrawal_request', 'AdvertiserController@withdrawal_request')->name('advertiser.withdrawal.request');
+    Route::any('/advertiser_new_ad_popup/{advertise?}', 'AdvertiserController@advertiser_new_ad_popup')->name('advertiser.new.ad.popup');
+    Route::any('/advertiser_new_ad_app/{advertise?}', 'AdvertiserController@advertiser_new_ad_app')->name('advertiser.new.ad.app');
+    Route::get('/advertiser_list', 'AdvertiserController@advertiser_list')->name('advertiser.list');
     // Route::get('/withdrawal_list', 'AdvertiserController@withdrawal_list')->name('advertiser.withdrawal.list');
     // Route::any('/sites', 'AdvertiserController@sites')->name('advertiser.sites');
 
@@ -83,7 +89,7 @@ Route::prefix('advertiser')->middleware(['auth'])->namespace('advertiser')->grou
 // پرداخت ها
 Route::get('/result_pay/{transaction}', 'PayController@result_pay')->name('result.pay');
 Route::get('/bill_verify', 'PayController@bill_verify')->name('pay.verify');
-Route::post('/send_pay', 'PayController@send_pay')->name('send.pay');
+Route::any('/send_pay', 'PayController@send_pay')->name('send.pay');
 
 // Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function () {
 //     Route::get('/active_region/{region}', 'RegionController@active_region')->name('active.region')->withTrashed();;

@@ -14,5 +14,9 @@ class Cat extends Model
         'name',
 
     ];
+
+    public function advertises(){
+        return $this->BelongsToMany(Advertise::class);
+    }
 }
 

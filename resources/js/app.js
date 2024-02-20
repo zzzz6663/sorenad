@@ -114,11 +114,111 @@ window.onload = function () {
         }
     });
 
-    $('#send_pay').on("click", function(e) {
+    if ($('.tooltipster').length) {
+        $('.tooltipster').tooltipster();
+    }
+
+    $('#send_pay').on("click", function (e) {
         $(this).closest("form").submit()
 
-      })
-    $('.number_format').on("keyup change", function(e) {
+    })
+    function update_app_price() {
+        // let type = $('input[name="count_type"]:checked').val()
+        // let val_click = $('#click_count').data("price");
+        // let val_view = $('#view_count').data("price");
+        // let click_count = $('#click_count').val()
+        // let view_count = $('#view_count').val()
+        // console.log(val)
+        // console.log(type)
+        // console.log(click_count)
+        // console.log(view_count)
+        // let total_click = click_count
+        // val_click *= total_click
+
+        // let total_view = view_count
+        // val_view *= total_view
+
+        // let tax = Math.floor(val + ((4.5 * val) / 100))
+        // console.log((4.5 * val) / 100)
+        // console.log(tax)
+        // let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+        // tax = String(tax).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+        // // val = val.num2persian()
+        // if (type == "view") {
+        //     $('.totoal_price_view').text(num + " تومان")
+        // } else {
+        //     $('.totoal_price_click').text(num + " تومان")
+        // }
+        // $('.totoal_price').text(num + " تومان")
+        // $('.after_tax_price').text(tax + " تومان")
+    }
+
+
+    $('#click_count').on("change keyup", function (e) {
+        let el = $(this);
+        let price = Number(el.data("price"));
+        let val = Number(el.val());
+        val*=price
+        let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+        $('.totoal_price_click').text(num)
+        let tax = Math.floor(val + ((4.5 * val) / 100))
+         tax = String(tax).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+         $('.totoal_price').text(num + " تومان")
+        $('.after_tax_price').text(tax + " تومان")
+    })
+
+
+    $('#view_count').on("change keyup", function (e) {
+        let el = $(this);
+        let price = Number(el.data("price"));
+        let val = Number(el.val());
+        val*=price
+        let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+        $('.totoal_price_view').text(num)
+        let tax = Math.floor(val + ((4.5 * val) / 100))
+         tax = String(tax).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+         $('.totoal_price').text(num + " تومان")
+        $('.after_tax_price').text(tax + " تومان")
+    })
+
+
+    $('input[name="count_type"]').on("click", function (e) {
+       $('.cal_p').val("")
+       $('.totoal_price_view').text("")
+       $('.totoal_price_click').text("")
+       $('.totoal_price').text(0 + " تومان")
+       $('.after_tax_price').text(0 + " تومان")
+    })
+    $('.per_price').on("click", function (e) {
+        let el = $(this);
+        let val = el.data("price");
+        console.log(val)
+        $('#amount').val(val)
+
+
+        let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+
+        console.log(num)
+        val = val.num2persian()
+        $('.persian_number').text(val + " تومان")
+        $('#amount_total').text(num + " تومان")
+        $('.amount_total').text(num + " تومان")
+    })
+    $('#order_count').on("keyup change", function (e) {
+        let el = $(this);
+        let val = Number(el.val());
+        let price = Number($('#price').val());
+        val *= price
+        let tax = Math.floor(val + ((4.5 * val) / 100))
+        console.log((4.5 * val) / 100)
+        console.log(tax)
+        let num = String(val).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+        tax = String(tax).replace(/(.)(?=(\d{3})+$)/g, '$1,')
+        // val = val.num2persian()
+        $('.totoal_price').text(num + " تومان")
+        $('.after_tax_price').text(tax + " تومان")
+    })
+    $('.number_format').on("keyup change", function (e) {
         let el = $(this);
         let val = el.val();
         console.log(60)
@@ -129,6 +229,7 @@ window.onload = function () {
             val = val.num2persian()
             $('.persian_number').text(val + " تومان")
             $('#amount_total').text(num + " تومان")
+            $('.amount_total').text(num + " تومان")
             // if (el.closest('.col-12').find('.green_label').length) {
             //     console.log(80)
             //     console.log(num)
@@ -148,7 +249,7 @@ window.onload = function () {
             //     `)
             // }
 
-        }else{
+        } else {
             $('.persian_number').text(0 + " تومان")
             $('#amount_total').text(0 + " تومان")
         }

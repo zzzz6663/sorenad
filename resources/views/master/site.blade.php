@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{{ asset("/site/libs/bs.css") }}">
     <link rel="stylesheet" href="{{ asset("/site/libs/tooltipster.bundle.min.css") }}">
     <link rel="stylesheet" href="{{ asset("/site/libs/persian-datepicker.css") }}">
+    <link rel="stylesheet" href="{{ asset("/common/tooltipster.bundle.min.css") }}">
 
     <script src="{{ asset('/site/js/jquery.js') }}"></script>
     @vite('resources/css/app.css')
@@ -75,6 +76,7 @@
     <script src="/site/libs/select2.js"></script>
     <script src="/site/libs/tooltipster.bundle.min.js"></script>
     <script src="/site/libs/persian-datepicker.js"></script>
+    <script src="/common/tooltipster.bundle.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @vite('resources/js/app.js')
