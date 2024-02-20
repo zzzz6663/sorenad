@@ -179,17 +179,19 @@ class PayController extends Controller
                     ]);
                 }
 
-
-                switch ($transaction->advertise->type) {
-                    case "charge":
-                        break;
-                    case "app":
-                        $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
-                        break;
-                    case "popup":
-                        $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
-                        break;
+                if($transaction->advertise){
+                    switch ($transaction->advertise->type) {
+                        case "charge":
+                            break;
+                        case "app":
+                            $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
+                            break;
+                        case "popup":
+                            $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
+                            break;
+                    }
                 }
+
                 $transaction->update([
                     'status' => 'payed',
                     'payed' => '1',
