@@ -180,21 +180,13 @@ class PayController extends Controller
                 }
 
 
-                switch ($transaction->type) {
+                switch ($transaction->advertise->type) {
                     case "charge":
                         break;
                     case "app":
+                        $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
+                        break;
                     case "popup":
-                        // if ($transaction->pay_type == "acc_money" && $user->balance() > 0) {
-                        //     $user->transactions()->create([
-                        //         'amount' => -1 * $user->balance(),
-                        //         'transactionId' => 888,
-                        //         'type' => "cash_withdrawal_for_ad",
-                        //         'pay_type' => "acc_money",
-                        //         'advertise_id' => $transaction->advertise_id,
-                        //         'status' => "payed",
-                        //     ]);
-                        // }
                         $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
                         break;
                 }
