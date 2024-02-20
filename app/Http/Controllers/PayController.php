@@ -157,9 +157,20 @@ class PayController extends Controller
 
             $receipt = Payment::amount(abs((int)$amount))->transactionId($request->Authority)->verify();
             if ($request->Status == 'OK') {
-                if ($transaction->pay_type == "acc_money"||$transaction->pay_type == "bank_pay") {
+                if ($transaction->pay_type == "acc_money") {
                     $user->transactions()->create([
                         'amount' => -1 * ($transaction->amount + $user->balance()),
+                        'transactionId' => $transaction->advertise_id . "777",
+                        'type' => "withdraw_wallet_for_ad",
+                        'pay_type' => $transaction->pay_type,
+                        'advertise_id' =>  $transaction->advertise_id,
+                        'status' => "payed",
+                    ]);
+                }
+
+                if ($transaction->pay_type == "bank_pay") {
+                    $user->transactions()->create([
+                        'amount' => -1 * ($transaction->amount ),
                         'transactionId' => $transaction->advertise_id . "777",
                         'type' => "withdraw_wallet_for_ad",
                         'pay_type' => $transaction->pay_type,
