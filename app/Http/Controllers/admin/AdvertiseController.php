@@ -111,9 +111,9 @@ class AdvertiseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, User $user)
+    public function edit(Request $request, Advertise $advertise)
     {
-        return view('admin.user.edit', compact(['user']));
+        return view('admin.advertise.edit', compact(['advertise']));
     }
 
     /**
@@ -123,29 +123,44 @@ class AdvertiseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Advertise $advertise)
     {
+        // dd($request->all());
         $data = $request->validate([
-            'name' => 'required|max:256',
-            'family' => 'required|max:256',
-            'mobile' => 'required|max:11|unique:users,mobile,'.$user->id,
-            'password' => 'nullable|min:6|max:20',
-            // 'region_id' => 'required',
-            'avatar' => 'nullable|max:2024',
-            'vip' => 'nullable|max:2024',
-            'active' => 'nullable|max:2024',
+            "title"=>"nullable",
+            "info"=>"nullable",
+            "text"=>"nullable",
+            "landing_title1"=>"nullable",
+            "landing_link1"=>"nullable",
+            "landing_title2"=>"nullable",
+            "landing_link2"=>"nullable",
+            "landing_title3"=>"nullable",
+            "landing_link3"=>"nullable",
+            "limit_daily_view"=>"nullable",
+            "limit_daily_click"=>"nullable",
         ]);
-        if ($request->hasFile('avatar')) {
-            $avatar = $request->file('avatar');
-            $name_img = 'avatar_' . $user->id . '.' . $avatar->getClientOriginalExtension();
-            $avatar->move(public_path('/media/users/avatar/'), $name_img);
-            $data['avatar']=$name_img;
+        if ($request->hasFile('icon')) {
+            $icon = $request->file('icon');
+            $name_img = 'icon_' . $advertise->id . '.' . $icon->getClientOriginalExtension();
+            $icon->move(public_path('/media/advertises/'), $name_img);
+            $data['icon'] = $name_img;
         }
-        $data['password']=bcrypt($data['password']);
+        if ($request->hasFile('banner1')) {
+            $banner1 = $request->file('banner1');
+            $name_img = 'banner1_' . $advertise->id . '.' . $banner1->getClientOriginalExtension();
+            $banner1->move(public_path('/media/advertises/'), $name_img);
+            $data['banner1'] = $name_img;
+        }
+        if ($request->hasFile('banner2')) {
+            $banner2 = $request->file('banner2');
+            $name_img = 'banner2_' . $advertise->id . '.' . $banner2->getClientOriginalExtension();
+            $banner2->move(public_path('/media/advertises/'), $name_img);
+            $data['banner2'] = $name_img;
+        }
 
-        $user->update($data);
-        alert()->success('کاربر با موفقیت به روز  شد ');
-        return redirect()->route('user.index');
+        $advertise->update($data);
+        alert()->success('تبلیغ با موفقیت به روز  شد ');
+        return redirect()->route('advertise.index');
     }
 
     /**

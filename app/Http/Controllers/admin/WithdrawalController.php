@@ -124,6 +124,7 @@ class WithdrawalController extends Controller
 
         // dd($request->all());
 
+
         $data = $request->validate([
             'info' => 'required|min:20|max:256',
             'attach' => 'nullable',
@@ -140,6 +141,10 @@ class WithdrawalController extends Controller
         $withdrawal->transaction->update(['status'=>"payed"]);
 
         $withdrawal->update($data);
+        $withdrawal->user->logs()->create([
+            'type'=>"confirm_withdrawal",
+            'withdrawal_id'=> $withdrawal->id,
+        ]);
         alert()->success('درخواست  با موفقیت به روز  شد ');
         return redirect()->route('withdrawal.index');
     }

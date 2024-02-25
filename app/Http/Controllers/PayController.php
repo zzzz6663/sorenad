@@ -69,6 +69,10 @@ class PayController extends Controller
 
                 break;
             case "app":
+            case "banner":
+            case "fixpost":
+            case "text":
+            case "video":
                 $advertise = Advertise::find($data['advertise_id']);
                 if ($advertise->count_type == "click") {
                     $price = $user->click_price() * $data['click_count'];
@@ -187,6 +191,18 @@ class PayController extends Controller
                             $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
                             break;
                         case "popup":
+                            $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
+                            break;
+                        case "banner":
+                            $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
+                            break;
+                        case "fixpost":
+                            $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
+                            break;
+                        case "text":
+                            $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
+                            break;
+                        case "video":
                             $transaction->advertise->update(['payed' => 1, "status" => "ready_to_confirm"]);
                             break;
                     }

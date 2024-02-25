@@ -47,7 +47,7 @@
         <div class="clear"></div>
     </div>
 </form>
-<h2 class="title_right">لیست تراکنش ها ها</h2>
+<h2 class="title_right">لیست تراکنش  ها</h2>
 <div class="flex dashbord_table">
     <div class="dashbord_table_title">
         <ul class="flex">
@@ -79,7 +79,7 @@
                 {{ __("arr.".$transaction->type) }}
             </li>
             <li> {{ __("t_status.".$transaction->status) }}</li>
-            <li><a href="{{ route("customer.transaction.factor",['action'=>$transaction->transactionId]) }}">
+            <li><a href="{{ route("customer.transaction.factor",['action'=>$transaction->transactionId]) }}" class="no_link">
                 <i class="fas fa-file-pdf"></i>
                 </a>
             </li>

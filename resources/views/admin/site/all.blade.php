@@ -31,11 +31,12 @@
                 <input type="text" name="to" value="{{ request('to') }}" class="form-control persian_date">
             </div>
             <div class="col-lg-2">
-                <label for="confirm">وضعیت </label>
-                <select class="form-control" name="confirm" id="confirm">
+                <label for="status">وضعیت </label>
+                <select class="form-control" name="status" id="status">
                     <option value=""> انتخاب کنید </option>
-                    <option {{ request("confirm")==1?"selected":"1" }} value="1"> فعال  </option>
-                    <option {{ request("confirm")==0?"selected":"0" }} value="0"> غیر فعال </option>
+                    @foreach (__("site_status") as $key=>$val )
+                    <option {{ request("status")==$key?"selected":"" }} value="{{ $key }}"> {{ $val }}  </option>
+                    @endforeach
                 </select>
             </div>
             <div class="col-lg-2">
@@ -81,7 +82,8 @@
                     <th>مالک </th>
                     <th>نام </th>
                     <th>سایت </th>
-                    <th>تایید شده</th>
+                    <th>وضعیت  </th>
+                    <th>توضیحات  </th>
                     <th>تاریخ</th>
 
                     <th>عملیات</th>
@@ -100,13 +102,20 @@
                         {{ $site->name }}
                     </td>
                     <td>{{ $site->site }}</td>
-                    <td>
-                        <span class="text tooltiper text-{{ $site->confirm?"success":"danger" }} " title="{{ $site->confirm?"فعال":"غیر فعال" }}">
-                            <i class="fa-solid tooltiper
-                                 {{ $site->confirm?"fa-badge-check":"fa-circle-xmark" }} ">
-                                </i>
-                        </span>
+                    <td>{{ __("site_status.".$site->status) }}
+
+                        @if($site->status=="created")
+                        بررسی نشده
+                            @else
+                            <span class="text tooltiper text-{{ $site->status=="confirmed"?"success":"danger" }} " title="{{ $site->status=="confirmed"?"فعال":"غیر فعال" }}">
+                                <i class="fa-solid tooltiper
+                                     {{ $site->status=="confirmed"?"fa-badge-check":"fa-circle-xmark" }} ">
+                                    </i>
+                            </span>
+                        @endif
                     </td>
+                    <td>{{ $site->reason }}</td>
+
 
                     <td>{{ jdate($site->created_at)->format("Y-m-d") }}</td>
                     <td>
@@ -115,17 +124,11 @@
                         </a>  --}}
                         @if($site->confirm)
                         <span>
-                            تایید شده در
+                            بررسی شده در
                             {{ jdate($site->confirm)->format("Y-m-d") }}
                         </span>
                         @else
-                        <form action="{{ route("site.confirm",$site->id) }}" method="post">
-                            @csrf
-                            @method('post')
-                            <button class="btn btn-success tooltiper" title="تایید سایت">
-                                <i class="fas fa-check-square " ></i>
-                            </button>
-                        </form>
+                       <a href="{{ route("site.confirm",$site->id) }}" class="btn btn-success">بررسی</a>
 
                         @endif
 

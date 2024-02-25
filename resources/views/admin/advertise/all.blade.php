@@ -137,12 +137,12 @@
                     <td>{{ jdate($advertise->created_at)->format("Y-m-d") }}</td>
                     <td>
                         <a href="{{ route("advertise.show",$advertise->id) }}" class="btn btn-primary">بیشتر</a>
+                        <a href="{{ route("advertise.edit",$advertise->id) }}" class="btn btn-success">ویراش</a>
                         @if($advertise->status=="ready_to_confirm")
                         <form action="{{ route('advertise.confirm',$advertise->id) }}" method="post">
                             @csrf
                             @method('post')
-                        <button  class="btn btn-success">تایید </button>
-
+                        <button  class="btn btn-info">تایید </button>
                         </form>
                         @endif
                     </td>

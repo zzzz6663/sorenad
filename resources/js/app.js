@@ -102,6 +102,7 @@ function load_animation() {
 }
 
 window.onload = function () {
+    
     stop_animation()
     $("form").submit(function (e) {
         load_animation()

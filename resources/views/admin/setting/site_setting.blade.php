@@ -22,7 +22,8 @@
 
             <p>
                 <label for="">{{ __("setting.min_val_checkout") }}</label>
-                <input type="text" id="min_val_checkout" value="{{ old("min_val_checkout",$min_val_checkout->val) }}" name="min_val_checkout" >
+                <input type="text" id="min_val_checkout" class="number_format" value="{{ old("min_val_checkout",$min_val_checkout->val) }}" name="min_val_checkout" >
+                <div class="amount_total"></div>
             </p>
 
         </div>

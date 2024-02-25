@@ -54,13 +54,13 @@ class TicketController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|max:256',
+            'customer_id' => 'required',
             'content' => 'required',
             'attach' => 'nullable|max:1024',
         ]);
         $user = auth()->user();
 
-        $data['customer_id'] = $user->id;
-        $data['status'] = 'wait_for_admin';
+        $data['status'] = 'wait_for_customer';
 
         $ticket = Ticket::create($data);
 
@@ -68,7 +68,7 @@ class TicketController extends Controller
         $ticket->update($data);
         $answer = Answer::create([
             'ticket_id' => $ticket->id,
-            'customer_id' => $user->id,
+            'customer_id' => $data['customer_id'],
             'answer' => $data['content'],
         ]);
         if ($request->hasFile('attach')) {
@@ -77,9 +77,12 @@ class TicketController extends Controller
             $attach->move(public_path('/media/ticket/attach/'), $name_img);
             $answer->update(['attach' => $name_img]);
         }
-
+        $answer->ticket->customer->logs()->create([
+            'type'=>"new_answer",
+            'answer_id'=> $answer->id,
+        ]);
         alert()->success('سوال با موفقیت ساخته شد ');
-        return redirect()->route('userticket.index');
+        return redirect()->route('ticket.index');
     }
 
     /**

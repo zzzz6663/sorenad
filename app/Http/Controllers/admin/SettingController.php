@@ -224,10 +224,12 @@ class SettingController extends Controller
 
     public function site_setting(Request $request){
 
+        $tax_percent_page_ad=Setting::whereName("tax_percent_page_ad")->first();
+        $min_val_checkout=Setting::whereName("min_val_checkout")->first();
         if($request->isMethod("post")){
             $data=$request->validate([
-                'tax_percent_page_ad'=>"required",
-                'min_val_checkout'=>"required",
+                'tax_percent_page_ad'=>"required|integer|max:15",
+                'min_val_checkout'=>"required|integer|min:1000000",
                 'change_pass_admin'=>"nullable",
                 'repeat_pass_admin'=>"nullable",
             ]);
@@ -239,13 +241,17 @@ class SettingController extends Controller
             $user=User::find(1);
             $data['password']=bcrypt($request->change_pass_admin);
             $user->update(['password'=>$data['password']]);
-
+            $tax_percent_page_ad->update([
+                'val'=>$data['tax_percent_page_ad']
+            ]);
+            $min_val_checkout->update([
+                'val'=>$data['min_val_checkout']
+            ]);
             alert()->success("اطلاعات با موفقیت ذخیره شد ");
             return redirect()->route("site.setting");
 
         }
-        $tax_percent_page_ad=Setting::whereName("tax_percent_page_ad")->first();
-        $min_val_checkout=Setting::whereName("min_val_checkout")->first();
+
 
         return view('admin.setting.site_setting', compact([
             "tax_percent_page_ad",
@@ -255,7 +261,7 @@ class SettingController extends Controller
        }
 
 
-    public function setting_ads_txt(Request $request){
+    public function setting_ads_text(Request $request){
         if($request->isMethod("post")){
             $data=$request->validate([
                 'txt_advertiser_click'=>"required",
@@ -273,7 +279,7 @@ class SettingController extends Controller
 
             }
             alert()->success("اطلاعات با موفقیت ذخیره شد ");
-            return redirect()->route("setting.ads.txt");
+            return redirect()->route("setting.ads.tثxt");
         }
 
         // $setting_ads_txt=Setting::whereType("setting_ads_txt")->get();
@@ -285,7 +291,7 @@ class SettingController extends Controller
         $txt_user_vip_show=Setting::whereName("txt_user_vip_show")->first();
         $txt_user_normal_click=Setting::whereName("txt_user_normal_click")->first();
         $txt_user_normal_show=Setting::whereName("txt_user_normal_show")->first();
-        return view('admin.setting.setting_ads_txt', compact([
+        return view('admin.setting.setting_ads_text', compact([
             "txt_advertiser_click",
             "txt_advertiser_show",
             "txt_limit_order",

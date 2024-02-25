@@ -195,6 +195,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+        // niklasravnsborg\LaravelPdf\PdfServiceProvider::class
+        // Mccarlosen\LaravelMpdf\LaravelMpdfServiceProvider::class
+	// niklasravnsborg\LaravelPdf\PdfServiceProvider::class
 
 
     ],
@@ -213,7 +216,10 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
-        'PDF' => Barryvdh\DomPDF\Facade::class,
+        // 'PDF' => Barryvdh\DomPDF\Facade::class,
+        // 'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class
+    //  'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class
+
 
     ])->toArray(),
 

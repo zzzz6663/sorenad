@@ -175,6 +175,10 @@ class UserTicketController extends Controller
             $answer->update(['attach' => $name_img]);
         }
 
+        $answer->ticket->customer->logs()->create([
+            'type'=>"new_answer",
+            'answer_id'=> $answer->id,
+        ]);
         alert()->success('جواب با موفقیت ثبت شد ');
         return redirect()->route('userticket.show',$ticket->id);
     }

@@ -11,7 +11,13 @@ class Advertise extends Model
     protected$fillable=[
         'user_id',//
         'title',//
-        'login_link_page',//صفحه ورود
+        'landing_title1',//صفحه ورود
+        'landing_title2',//صفحه ورود
+        'landing_title3',//صفحه ورود
+        'landing_link1',//صفحه ورود
+        'landing_link2',//صفحه ورود
+        'landing_link3',//صفحه ورود
+        'info',//توضیحات آگهی
         'type',//نوع آگهی
         'count_type',//نوع شمارش آگهی
         'model_price',//
@@ -30,6 +36,9 @@ class Advertise extends Model
         'price',//قیمت
         'remain',//بقیمانده
         'confirm',//تایید
+        'call_to_action',//اقدام به دعوت
+        'text',//متن تبلیغ
+        'video1',//ویدئو
     ];
     public function user(){
         return $this->belongsTo(User::class);
@@ -42,9 +51,16 @@ class Advertise extends Model
     public function cats(){
         return $this->BelongsToMany(Cat::class);
     }
-    public function banner(){
-        if($this->banner){
-            return asset('/media/advertises/'.$this->banner);
+    public function banner1(){
+        if($this->banner1){
+            return asset('/media/advertises/'.$this->banner1);
+        }
+        return false;
+    }
+
+    public function banner2(){
+        if($this->banner2){
+            return asset('/media/advertises/'.$this->banner2);
         }
         return false;
     }

@@ -9,6 +9,12 @@
             تیکت جدید
         </a>
         @endrole
+
+        @role('admin')
+        <a href="{{ route("ticket.create") }}" class="btn btn-success">
+            تیکت جدید
+        </a>
+        @endrole
     </div>
 </h2>
 <div class="flex dashbord_table">

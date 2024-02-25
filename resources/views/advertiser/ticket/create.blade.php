@@ -19,14 +19,34 @@
     <div class="ticket_form">
         @include('master.error')
         <div class="dashboard_site_form">
-            <form method="post" action="{{ route("userticket.store") }}" enctype="multipart/form-data">
+            @role('admin')
+            <form method="post" action="{{ route("ticket.store") }}" enctype="multipart/form-data">
+                @endrole
+                @role('customer')
+                <form method="post" action="{{ route("userticket.store") }}" enctype="multipart/form-data">
+                    @endrole
                 @csrf
                 @method('post')
                 <p>
                     <label for="ticket_subject">موضوع</label>
                     <input type="text" id="ticket_subject" name="title" value="{{ old("title") }}">
                 </p>
+                <br>
+                @role('admin')
+                <div>
+                    <select name="customer_id" class="form-control select2" id="">
+                        <option value="">انتخاب مشتری</option>
+                        @foreach ( App\Models\User::whereRole("customer")->get() as $customer)
+                        <option {{ old("customer_id")==$customer->id?"selected":"" }} value="{{  $customer->id }}">
+                            {{ $customer->name }}
+                            {{ $customer->family }}
+                        </option>
 
+                        @endforeach
+                    </select>
+                </div>
+                @endrole
+                <br>
                 <p>
                     <label for="ticket_content">توضیحات</label>
                     <textarea placeholder="متن توضیحات را وارد کنید" name="content">{{ old("content") }}</textarea>

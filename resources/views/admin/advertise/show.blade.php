@@ -19,7 +19,7 @@
                 <div class="portlet-title">
 
                     <div class="text-center">
-                        <img src="{{$advertise->banner()}}" alt="">
+                        <img src="{{$advertise->banner1()}}" alt="">
                     </div>
 
                     <div class="">

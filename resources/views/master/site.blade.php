@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="{{ asset("/site/libs/tooltipster.bundle.min.css") }}">
     <link rel="stylesheet" href="{{ asset("/site/libs/persian-datepicker.css") }}">
     <link rel="stylesheet" href="{{ asset("/common/tooltipster.bundle.min.css") }}">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.rtl.min.css" integrity="sha512-rXhL8a+X3wTosWn2Zgd/5L8rfWrpff7qdOnl7Wg1n2zHk8lHGhiSujoyxoKw1nf43kZAzJoe0Z0ymr2Kkku7lQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="{{ asset('/site/js/jquery.js') }}"></script>
     @vite('resources/css/app.css')
 </head>
@@ -78,7 +78,7 @@
     <script src="/site/libs/persian-datepicker.js"></script>
     <script src="/common/tooltipster.bundle.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.min.js" integrity="sha512-EKWWs1ZcA2ZY9lbLISPz8aGR2+L7JVYqBAYTq5AXgBkSjRSuQEGqWx8R1zAX16KdXPaCjOCaKE8MCpU0wcHlHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     @vite('resources/js/app.js')
 
     @yield('script')

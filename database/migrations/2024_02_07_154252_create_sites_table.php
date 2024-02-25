@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string("name")->nullable();
             $table->string("site")->nullable();
             $table->string("status")->nullable();
+            $table->text("reason")->nullable();
             $table->string("popup_window",5)->nullable();
             $table->string("floating_ad_app",5)->nullable();
             $table->string("show_count_day",5)->nullable();

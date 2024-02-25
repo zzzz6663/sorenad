@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\admin;
+
 use Carbon\Carbon;
 // use App\Notifisiteions\SendKaveCode;
 use App\Models\Site;
@@ -17,7 +18,7 @@ class SiteController extends Controller
      */
     public function index(Request $request)
     {
-        $user=auth()->user();
+        $user = auth()->user();
         $sites = Site::query();
         // ssssss
         // if ($request->search) {
@@ -35,9 +36,10 @@ class SiteController extends Controller
         // if ($request->vip) {
         //     $sites->where('vip', $request->vip);
         // }
-        if ($request->confirm) {
-            $sites->where('confirm', "!=",null);
+        if ($request->status) {
+            $sites->where('status', $request->status);
         }
+
         if ($request->user_id) {
             $sites->where('user_id', $request->user_id);
         }
@@ -50,11 +52,10 @@ class SiteController extends Controller
             $sites->where('created_at', '<', $request->to);
         }
         $sites = $sites
-        ->latest()->paginate(10);
-        $customers=User::whereRole("customer")->whereHas("sites",function($query){
-
+            ->latest()->paginate(10);
+        $customers = User::whereRole("customer")->whereHas("sites", function ($query) {
         })->get();
-        return view('admin.site.all', compact(['sites',"customers"]));
+        return view('admin.site.all', compact(['sites', "customers"]));
     }
 
     /**
@@ -80,9 +81,9 @@ class SiteController extends Controller
             'name' => 'required|max:256',
             'active' => 'required',
         ]);
-        $user=auth()->user();
-        $data['user_id']=$user->id;
-       site::create($data);
+        $user = auth()->user();
+        $data['user_id'] = $user->id;
+        site::create($data);
         alert()->success('دسته بندی  با موفقیت ساخته شد ');
         return redirect()->route('site.index');
     }
@@ -139,14 +140,33 @@ class SiteController extends Controller
         alert()->success('دسته بندی  با موفقیت حذف شد ');
         return redirect()->route('site.index');
     }
-  public function site_confirm (Site $site)
+    public function site_confirm(Site $site, Request $request)
     {
 
         // dd($site);
-        $site->update(['confirm'=>Carbon::now()]);
+        if ($request->isMethod("post")) {
+            $data = $request->validate([
+                'status' => "required",
+                'reason' => "required",
+            ]);
+            $site->update(['confirm' => Carbon::now(), 'status' => $data['status'],"reason"=>$data['reason']]);
+            if ($data['status'] == "rejected") {
+                $site->user->logs()->create([
+                    'type' => "reject_site",
+                    'site_id' => $site->id,
+                ]);
+            } else {
+                $site->user->logs()->create([
+                    'type' => "confirm_site",
+                    'site_id' => $site->id,
+                ]);
+            }
+            alert()->success('اطلاعات با موفقیت ثبت شد  ');
 
-        alert()->success('سایت  با موفقیت فعال شد ');
-        return redirect()->route('site.index');
+            return redirect()->route('site.index');
+        }
+
+
+        return view('admin.site.site_confirm', compact(['site']));
     }
-
 }

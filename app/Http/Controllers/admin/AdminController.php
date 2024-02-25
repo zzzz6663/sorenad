@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\admin;
 
+use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Advertise;
+use App\Models\Withdrawal;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +32,11 @@ class AdminController extends Controller
     public function admin_dashoard()
     {
         $user = auth()->user();
-        return view('admin.dashboard.admin_dashoard');
+        $current_register=User::whereRole("customer")->whereDate('created_at', Carbon::today());
+        $advertise_ready_to_confirm=Advertise::whereStatus("ready_to_confirm");
+        $ready_to_show=Advertise::whereStatus("ready_to_show");
+        $withdrawal_wait_for_admin_confirm=Withdrawal::whereStatus("wait_for_admin_confirm");
+        return view('admin.dashboard.admin_dashoard',compact(['current_register',"advertise_ready_to_confirm","ready_to_show","withdrawal_wait_for_admin_confirm"]));
     }
 
 }

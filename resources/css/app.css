@@ -112,3 +112,22 @@ input[type=number] {
 .per_price{
     cursor: pointer;
 }
+#logs{
+
+}
+
+#logs li{
+    margin-bottom: 10px;
+
+}
+#sidebar_right .accordionItem a ,
+#sidebar_right .accordionItem .accordionItemHeading{
+color: #2e586c;
+font-size: 18px;
+}
+
+#sidebar_right .accordionItem i{
+
+    color: #0e63f2;
+    font-size: 22px;
+}

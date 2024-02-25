@@ -80,13 +80,18 @@ class User extends Authenticatable
     }
     public function sites(){
         return $this->hasMany(Site::class);
-
+    }
+    public function logs(){
+        return $this->hasMany(Log::class);
     }
     public function answer(){
         return $this->hasMany(Answer::class);
     }
     public function balance(){
         return $this->transactions()->whereIn("status",["wait_for_admin_confirm","payed"])->sum("amount");
+    }
+    public function unread_logs(){
+        return $this->logs()->whereNull("seen");
     }
 
     public function avatar(){
@@ -118,7 +123,9 @@ class User extends Authenticatable
         return 500;
     }
     public function tax_percent(){
-        return 4.5;
+
+        $tax_percent_page_ad=Setting::whereName("tax_percent_page_ad")->first();
+        return $tax_percent_page_ad->val;
     }
     public function unread_withdrawal(){
         if($this->role=="admin"){

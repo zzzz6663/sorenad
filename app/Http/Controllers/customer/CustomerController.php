@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\customer;
+
 use PDF;
 use Carbon\Carbon;
+
 use App\Models\User;
 use App\Models\Course;
 use App\Models\Section;
@@ -25,35 +27,34 @@ class CustomerController extends Controller
         return view('customer.money_charge', compact(["user", "transactions"]));
     }
 
-    public function transaction_factor( Request $request)
+    public function transaction_factor(Request $request)
     {
-        $id=$request->action;
-        $transaction=Transaction::where("transactionId",$id)->first();
+        $id = $request->action;
+        $transaction = Transaction::where("transactionId", $id)->first();
 
-        if( !$id){
+        if (!$id) {
             alert()->warning('فاکتور این تراکنش موجود نیست ');
-return back();
+            return back();
         }
 
-        $html = view('customer.transaction_factor', compact(['transaction' ]))->render();
-        $pdf = PDF::loadHTML($html)->setPaper('a4', 'landscape');;
-        $number=2;
-        return $pdf->download("warhouse_$number.pdf");
-        return view('customer.transaction_factor ', compact(['transaction' ]));
+        // $html = view('customer.transaction_factor', compact(['transaction' ]))->render();
+        // $pdf = PDF::loadHTML($html)->setPaper('a4', 'landscape');;
+        // $number=2;
+        // return $pdf->download("warhouse_$number.pdf");
 
 
+        $pdf = PDF::loadView('customer.transaction_factor', compact(['transaction']));
+        return $pdf->stream('document.pdf');
     }
-    public function performa_pdf_warehouse( Request $request)
+    public function performa_pdf_warehouse(Request $request)
     {
         $company = User::whereRole('company')->first();
-        if($request->print){
+        if ($request->print) {
             $html = view('admin.performa.print_performa_pdf_warehouse', compact(['performa', 'company']))->render();
             $pdf = PDF::loadHTML($html)->setPaper('a4', 'landscape');;
-            $number=2;
+            $number = 2;
             return $pdf->download("warhouse_$number.pdf");
         }
         return view('admin.performa.performa_pdf_warehouse ', compact(['performa', 'company']));
     }
-
-
 }

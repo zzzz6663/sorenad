@@ -2,7 +2,7 @@
 
 @section('content')
 <h2 class="title_right">
-    {{ __("setting.app_title") }}
+    درخواست وجه
 </h2>
 <div class="request_box flex">
 
@@ -31,7 +31,10 @@
     @method('post')
     <div class="moneybox_req box_shdow">
         <p>مبلغی که قصد دارید از حساب تان خارج کنید را وارد کنید. </p>
-        <p>این مبلغ باید کمتر از درامد قابل برداشت شما و بیشتر از 20 هزار تومان باشد.</p>
+        <p>این مبلغ باید کمتر از درامد قابل برداشت شما و بیشتر از
+             {{ number_format($min_val_checkout) }}
+
+            تومان باشد.</p>
         <div class="dashboard_site_form">
             <input type="number" id="money" class="number_format form-control" name="amount" value="{{ old("amount") }}" placeholder="تومان">
             <br>

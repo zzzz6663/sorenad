@@ -39,12 +39,12 @@ Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function
     Route::any('/setting_ads_fixpost', 'SettingController@setting_ads_fixpost')->name('setting.ads.fixpost');
     Route::any('/setting_ads_popup', 'SettingController@setting_ads_popup')->name('setting.ads.popup');
     Route::any('/setting_ads_video', 'SettingController@setting_ads_video')->name('setting.ads.video');
-    Route::any('/setting_ads_txt', 'SettingController@setting_ads_txt')->name('setting.ads.txt');
+    Route::any('/setting_ads_text', 'SettingController@setting_ads_text')->name('setting.ads.text');
     Route::any('/site_setting', 'SettingController@site_setting')->name('site.setting');
 
 
     Route::any('/user_bank_info/{user}', 'UserController@user_bank_info')->name('user.bank.info');
-    Route::post('/site_confirm/{site}', 'SiteController@site_confirm')->name('site.confirm');
+    Route::any('/site_confirm/{site}', 'SiteController@site_confirm')->name('site.confirm');
     Route::post('/advertise_confirm/{advertise}', 'AdvertiseController@advertise_confirm')->name('advertise.confirm');
 
     Route::resource('user', 'UserController')->middleware(['role:admin']);;;
@@ -58,7 +58,7 @@ Route::prefix('admin')->middleware(['auth'])->namespace('admin')->group(function
 });
 
 
-Route::prefix('customer')->middleware(['auth'])->namespace('customer')->group(function () {
+Route::prefix('customer')->middleware(['auth',"role:customer"])->namespace('customer')->group(function () {
     Route::any('/money_charge', 'CustomerController@money_charge')->name('customer.money.charge');
     Route::any('/transaction_factor', 'CustomerController@transaction_factor')->name('customer.transaction.factor');
 });
@@ -68,10 +68,16 @@ Route::prefix('advertiser')->middleware(['auth'])->namespace('advertiser')->grou
     Route::any('/bank_info', 'AdvertiserController@bank_info')->name('advertiser.bank.info');
     Route::get('/faqs', 'AdvertiserController@faqs')->name('advertiser.faqs');
     Route::any('/sites', 'AdvertiserController@sites')->name('advertiser.sites');
+    Route::any('/update_site/{site}', 'AdvertiserController@update_site')->name('advertiser.update.site');
     Route::any('/withdrawal_request', 'AdvertiserController@withdrawal_request')->name('advertiser.withdrawal.request');
     Route::any('/advertiser_new_ad_popup/{advertise?}', 'AdvertiserController@advertiser_new_ad_popup')->name('advertiser.new.ad.popup');
     Route::any('/advertiser_new_ad_app/{advertise?}', 'AdvertiserController@advertiser_new_ad_app')->name('advertiser.new.ad.app');
+    Route::any('/advertiser_new_ad_banner/{advertise?}', 'AdvertiserController@advertiser_new_ad_banner')->name('advertiser.new.ad.banner');
+    Route::any('/advertiser_new_ad_fixpost/{advertise?}', 'AdvertiserController@advertiser_new_ad_fixpost')->name('advertiser.new.ad.fixpost');
+    Route::any('/advertiser_new_ad_text/{advertise?}', 'AdvertiserController@advertiser_new_ad_text')->name('advertiser.new.ad.text');
+    Route::any('/advertiser_new_ad_video/{advertise?}', 'AdvertiserController@advertiser_new_ad_video')->name('advertiser.new.ad.video');
     Route::get('/advertiser_list', 'AdvertiserController@advertiser_list')->name('advertiser.list');
+    Route::get('/logs', 'AdvertiserController@logs')->name('logs');
     // Route::get('/withdrawal_list', 'AdvertiserController@withdrawal_list')->name('advertiser.withdrawal.list');
     // Route::any('/sites', 'AdvertiserController@sites')->name('advertiser.sites');
 

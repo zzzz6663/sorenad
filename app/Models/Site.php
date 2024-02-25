@@ -18,6 +18,7 @@ class Site extends Model
         'floating_ad_app',
         'show_count_day',
         'confirm',
+        'reason',
 
     ];
     public function user(){

@@ -47,9 +47,11 @@
             <ul class="flex">
                 <li>نام</li>
                 <li> سایت</li>
+                <li> وضعیت </li>
+                <li> توضیحات</li>
                 <li>میزان درامد</li>
                 <li>تاریخ ایجاد</li>
-                <li>وضعیت نمایش دهنده</li>
+                <li>وضعیت </li>
             </ul>
         </div>
         @foreach ($sites as $site )
@@ -59,13 +61,29 @@
                 <li>{{ $site->name }}</li>
                 <li>{{ $site->site }}</li>
                 <li>
+                    {{ __("site_status.$site->status")}}
+                </li>
+                <li>
+                    @if($site->status=="rejected")
+                    {{ $site->reason }}
+                    @endif
+                </li>
+                <li>
                     {{ $site->income() }}
                     <span class="price_format">تومان</span>
                 </li>
                 <li>
                     {{ jdate($site->created_at) }}
                 </li>
-                <li><i class="fa fa-check-circle-o"></i></li>
+
+
+                <li>
+                  @if($site->status=="rejected")
+                  <a href="{{ route("advertiser.update.site",$site->id) }}" class="btn btn-success">
+                    ویرایش مجدد
+                  </a>
+                  @endif
+                </li>
             </ul>
         </div>
 
