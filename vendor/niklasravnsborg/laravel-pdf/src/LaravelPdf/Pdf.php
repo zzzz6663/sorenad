@@ -3,7 +3,7 @@
 namespace niklasravnsborg\LaravelPdf;
 
 use Config;
-use Mpdf;
+use mPDF;
 
 /**
  * Laravel PDF: mPDF wrapper for Laravel 5
@@ -19,77 +19,42 @@ class Pdf {
 	{
 		$this->config = $config;
 
-		// @see https://mpdf.github.io/reference/mpdf-functions/construct.html
-		$mpdf_config = [
-			'mode'              => $this->getConfig('mode'),              // Mode of the document.
-			'format'            => $this->getConfig('format'),            // Can be specified either as a pre-defined page size, or as an array of width and height in millimetres
-			'default_font_size' => $this->getConfig('default_font_size'), // Sets the default document font size in points (pt).
-			'default_font'      => $this->getConfig('default_font'),      // Sets the default font-family for the new document.
-			'margin_left'       => $this->getConfig('margin_left'),       // Set the page margins for the new document.
-			'margin_right'      => $this->getConfig('margin_right'),      // Set the page margins for the new document.
-			'margin_top'        => $this->getConfig('margin_top'),        // Set the page margins for the new document.
-			'margin_bottom'     => $this->getConfig('margin_bottom'),     // Set the page margins for the new document.
-			'margin_header'     => $this->getConfig('margin_header'),     // Set the page margins for the new document.
-			'margin_footer'     => $this->getConfig('margin_footer'),     // Set the page margins for the new document.
-			'orientation'       => $this->getConfig('orientation'),       // This attribute specifies the default page orientation of the new document if format is defined as an array. This value will be ignored if format is a string value.
-			'tempDir'           => $this->getConfig('tempDir')            // temporary directory
-		];
+		if (Config::has('pdf.custom_font_path') && Config::has('pdf.custom_font_data')) {
+			define('_MPDF_SYSTEM_TTFONTS_CONFIG', __DIR__ . '/../mpdf_ttfonts_config.php');
+		}
 
-		// Handle custom fonts
-		$mpdf_config = $this->addCustomFontsConfig($mpdf_config);
+		$this->mpdf = new mPDF(
+			$this->getConfig('mode'),              // mode - default ''
+			$this->getConfig('format'),            // format - A4, for example, default ''
+			$this->getConfig('default_font_size'), // font size - default 0
+			$this->getConfig('default_font'),      // default font family
+			$this->getConfig('margin_left'),       // margin_left
+			$this->getConfig('margin_right'),      // margin right
+			$this->getConfig('margin_top'),        // margin top
+			$this->getConfig('margin_bottom'),     // margin bottom
+			$this->getConfig('margin_header'),     // margin header
+			$this->getConfig('margin_footer'),     // margin footer
+			$this->getConfig('orientation')        // L - landscape, P - portrait
+		);
 
-		$this->mpdf = new Mpdf\Mpdf($mpdf_config);
-
-		// If you want to change your document title,
-		// please use the <title> tag.
-		$this->mpdf->SetTitle('Document');
-
+		$this->mpdf->SetTitle         ( $this->getConfig('title') );
 		$this->mpdf->SetAuthor        ( $this->getConfig('author') );
-		$this->mpdf->SetCreator       ( $this->getConfig('creator') );
-		$this->mpdf->SetSubject       ( $this->getConfig('subject') );
-		$this->mpdf->SetKeywords      ( $this->getConfig('keywords') );
+		$this->mpdf->SetWatermarkText ( $this->getConfig('watermark') );
 		$this->mpdf->SetDisplayMode   ( $this->getConfig('display_mode') );
 
-		if (!empty($this->getConfig('pdf_a'))) {
-			$this->mpdf->PDFA = $this->getConfig('pdf_a');           // Set the flag whether you want to use the pdfA-1b format
-			$this->mpdf->PDFAauto = $this->getConfig('pdf_a_auto');  // Overrides warnings making changes when possible to force PDFA1-b compliance;
-		}
-
-		if (!empty($this->getConfig('icc_profile_path'))) {
-			$this->mpdf->ICCProfile = $this->getConfig('icc_profile_path'); // Specify ICC colour profile
-		}
-
-		if (isset($this->config['instanceConfigurator']) && is_callable(($this->config['instanceConfigurator']))) {
-			$this->config['instanceConfigurator']($this->mpdf);
-		}
+		$this->mpdf->showWatermarkText  = $this->getConfig('show_watermark');
+		$this->mpdf->watermark_font     = $this->getConfig('watermark_font');
+		$this->mpdf->watermarkTextAlpha = $this->getConfig('watermark_text_alpha');
 
 		$this->mpdf->WriteHTML($html);
 	}
 
-	protected function getConfig($key)
-	{
+	protected function getConfig($key) {
 		if (isset($this->config[$key])) {
 			return $this->config[$key];
 		} else {
 			return Config::get('pdf.' . $key);
 		}
-	}
-
-	protected function addCustomFontsConfig($mpdf_config)
-	{
-		if (!Config::has('pdf.font_path') || !Config::has('pdf.font_data')) {
-			return $mpdf_config;
-		}
-
-		// Get default font configuration
-		$fontDirs = (new Mpdf\Config\ConfigVariables())->getDefaults()['fontDir'];
-		$fontData = (new Mpdf\Config\FontVariables())->getDefaults()['fontdata'];
-
-		// Merge default with custom configuration
-		$mpdf_config['fontDir'] = array_merge($fontDirs, [Config::get('pdf.font_path')]);
-		$mpdf_config['fontdata'] = array_merge($fontData, Config::get('pdf.font_data'));
-
-		return $mpdf_config;
 	}
 
 	/**
@@ -108,6 +73,37 @@ class Pdf {
 		};
 		return $this->mpdf->SetProtection($permisson, $userPassword, $ownerPassword);
 	}
+
+	/**
+	 * Sets the watermark image for the PDF
+	 *
+	 * @param string $src Image file
+	 * @param string $alpha Transparency of the image
+	 * @param integer or array $size Defines the size of the watermark.
+	 * @param array $position Array of $x and $y defines the position of the watermark.
+	 * @return static
+	 *
+	 */
+	public function setWatermarkImage($src, $alpha = 0.2, $size = 'D', $position = 'P')
+	{
+		$this->mpdf->showWatermarkImage = true;
+		return $this->mpdf->SetWatermarkImage($src, $alpha, $size, $position);
+	}
+
+	/**
+	 * Sets a watermark text for the PDF
+	 *
+	 * @param string $text Text for watermark
+	 * @param string $alpha Transparency of the text
+	 * @return static
+	 *
+	 */
+	public function setWatermarkText($text, $alpha = 0.2)
+	{
+		$this->mpdf->showWatermarkText = true;
+		return $this->mpdf->SetWatermarkText($text, $alpha);
+	}
+
 
 	/**
 	 * Output the PDF as a string.

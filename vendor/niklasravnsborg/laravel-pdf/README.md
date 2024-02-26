@@ -11,8 +11,6 @@ Require this package in your `composer.json` or install it by running:
 composer require niklasravnsborg/laravel-pdf
 ```
 
-> Note: This package supports auto-discovery features of Laravel 5.5+, You only need to manually add the service provider and alias if working on Laravel version lower then 5.5
-
 To start using Laravel, add the Service Provider and the Facade to your `config/app.php`:
 
 ```php
@@ -27,12 +25,6 @@ To start using Laravel, add the Service Provider and the Facade to your `config/
 	// ...
 	'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class
 ]
-```
-
-Now, you should publish package's config file to your config directory by using following command:
-
-```
-php artisan vendor:publish
 ```
 
 ## Basic Usage
@@ -51,46 +43,31 @@ function generate_pdf() {
 }
 ```
 
-## Other methods
-
-It is also possible to use the following methods on the `pdf` object:
-
-`output()`: Outputs the PDF as a string.  
-`save($filename)`: Save the PDF to a file  
-`download($filename)`: Make the PDF downloadable by the user.  
-`stream($filename)`: Return a response with the PDF to show in the browser.
-
 ## Config
 
-If you have published config file, you can change the default settings in `config/pdf.php` file:
+You can use a custom file to overwrite the default configuration. Just create `config/pdf.php` and add this:
 
 ```php
 return [
-	'format'           => 'A4', // See https://mpdf.github.io/paging/page-size-orientation.html
-	'author'           => 'John Doe',
-	'subject'          => 'This Document will explain the whole universe.',
-	'keywords'         => 'PDF, Laravel, Package, Peace', // Separate values with comma
-	'creator'          => 'Laravel Pdf',
-	'display_mode'     => 'fullpage'
+	'mode'                 => '',
+	'format'               => 'A4',
+	'default_font_size'    => '12',
+	'default_font'         => 'sans-serif',
+	'margin_left'          => 10,
+	'margin_right'         => 10,
+	'margin_top'           => 10,
+	'margin_bottom'        => 10,
+	'margin_header'        => 0,
+	'margin_footer'        => 0,
+	'orientation'          => 'P',
+	'title'                => 'Laravel mPDF',
+	'author'               => '',
+	'watermark'            => '',
+	'show_watermark'       => false,
+	'watermark_font'       => 'sans-serif',
+	'display_mode'         => 'fullpage',
+	'watermark_text_alpha' => 0.1
 ];
-```
-
-To override this configuration on a per-file basis use the fourth parameter of the initializing call like this:
-
-```php
-PDF::loadView('pdf', $data, [], [
-  'format' => 'A5-L'
-])->save($pdfFilePath);
-```
-
-You can use a callback with the key 'instanceConfigurator' to access mpdf functions:
-```php
-$config = ['instanceConfigurator' => function($mpdf) {
-    $mpdf->SetImportUse();
-    $mpdf->SetDocTemplate(/path/example.pdf, true);
-}]
- 
-PDF::loadView('pdf', $data, [], $config)->save($pdfFilePath);
 ```
 
 ## Headers and Footers
@@ -128,24 +105,18 @@ You can use your own fonts in the generated PDFs. The TTF files have to be locat
 
 ```php
 return [
-	// ...
-	'font_path' => base_path('resources/fonts/'),
-	'font_data' => [
+	'custom_font_path' => base_path('/resources/fonts/'), // don't forget the trailing slash!
+	'custom_font_data' => [
 		'examplefont' => [
 			'R'  => 'ExampleFont-Regular.ttf',    // regular font
 			'B'  => 'ExampleFont-Bold.ttf',       // optional: bold font
 			'I'  => 'ExampleFont-Italic.ttf',     // optional: italic font
 			'BI' => 'ExampleFont-Bold-Italic.ttf' // optional: bold-italic font
-			//'useOTL' => 0xFF,    // required for complicated langs like Persian, Arabic and Chinese
-			//'useKashida' => 75,  // required for complicated langs like Persian, Arabic and Chinese
 		]
 		// ...add as many as you want.
 	]
-	// ...
 ];
 ```
-
-*Note*: If you are using `laravel-pdf` for producing PDF documents in a complicated language (like Persian, Arabic or Chinese) you should have `useOTL` and `useKashida` indexes in your custom font definition array. If you do not use these indexes, your characters will be shown dispatched and incorrectly in the produced PDF.
 
 Now you can use the font in CSS:
 
@@ -177,15 +148,6 @@ function generate_pdf() {
 ```
 
 Find more information to `SetProtection()` here: https://mpdf.github.io/reference/mpdf-functions/setprotection.html
-
-## Testing
-
-To use the testing suite, you need some extensions and binaries for your local PHP. On macOS, you can install them like this:
-
-```
-brew install imagemagick ghostscript
-pecl install imagick
-```
 
 ## License
 

@@ -14,19 +14,6 @@ class PdfServiceProvider extends BaseServiceProvider {
 	 */
 	protected $defer = false;
 
-
-	/*
-	* Bootstrap the application service
-	*
-	* @return void
-	*/
-	public function boot()
-	{
-		$this->publishes([
-            	__DIR__ . '/../config/pdf.php' => config_path('pdf.php'),
-        	]);
-    	}
-	
 	/**
 	 * Register the service provider.
 	 *
